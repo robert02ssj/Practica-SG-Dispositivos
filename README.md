@@ -1,2 +1,0 @@
-# Practica-SG-Dispositivos
-sadasda
