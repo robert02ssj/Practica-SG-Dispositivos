@@ -110,7 +110,11 @@ public class Dispositivo {
         }
     }
     public int load(int idBuscado){
-        int prueba = idBuscado -1 ;
+        int idAnterior = ultimoId();
+        if(idBuscado > idAnterior){
+            return 1;
+        }else{
+            int prueba = idBuscado -1 ;
         int resultado = -1;
         try{
             RandomAccessFile raf = new RandomAccessFile("dispositivos.dat", "r");
@@ -120,22 +124,27 @@ public class Dispositivo {
                 long inicio = raf.getFilePointer();   
                 setMarca(raf.readUTF());
                 long fin = raf.getFilePointer();
-                raf.seek(inicio + tamCampo - (fin - inicio));
-                             
+                for(int i = 0; i < tamCampo - (fin - inicio); i++){
+                    raf.readByte();
+                }
+                inicio = raf.getFilePointer();
                 setModelo(raf.readUTF());
+                fin = raf.getFilePointer();
+                for(int i = 0; i < tamCampo - (fin - inicio); i++){
+                    raf.readByte();
+                }
                 setEstado(raf.readBoolean());
                 setTipo(raf.readInt());
                 setActivo(raf.readBoolean());
+                setForeingKey(raf.readInt());
                 resultado = 0;
-            }else{
-                resultado = 1;
-            }
-            
+        }
             raf.close();
         }catch(Exception e){
             System.err.println("Error al abrir el archivo 3");
         }
         return resultado;
+        }
     }
 
     public void limpiarCampo(RandomAccessFile raf, String Campo) {
@@ -150,5 +159,20 @@ public class Dispositivo {
         } catch (Exception e) {
             System.out.println("Error al abrir el documento");
         }
+    }
+    public int ultimoId(){
+        int resultado = 0;
+        try{
+            RandomAccessFile raf = new RandomAccessFile("dispositivos.dat", "r");
+            long tam = raf.length();
+            if(tam > 0){
+                raf.seek(tam - tamRegistro);
+                resultado = raf.readInt();
+            }
+            raf.close();
+        }catch(Exception e){
+            System.err.println("Error al abrir el archivo 4");
+        }
+        return resultado;
     }
 }
