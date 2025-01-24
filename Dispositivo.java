@@ -12,25 +12,14 @@ public class Dispositivo {
     private int foreingKey = 0; // 4 bytes
 
     public Dispositivo(String marca, String modelo, boolean estado, int tipo, boolean activo, int foreingKey) {
+        this.id = ultimoId() + 1;
         this.marca = marca;
         this.modelo = modelo;
         this.estado = estado;
         this.tipo = tipo;
         this.activo = activo;
         this.foreingKey = foreingKey;
-        try {
-            RandomAccessFile raf = new RandomAccessFile("dispositivos.dat", "rw");
-            long tam = raf.length();
-            if (tam > 0) {
-                raf.seek(tam - tamRegistro);
-                this.id = raf.readInt() + 1;
-            } else {
-                this.id = 1;
-            }
-            raf.close();
-        } catch (Exception e) {
-            System.err.println("Error al abrir el archivo 1");
-        }
+
     }
 
     public Dispositivo(int id) {
@@ -96,7 +85,11 @@ public class Dispositivo {
     public void save() {
         try {
             RandomAccessFile raf = new RandomAccessFile("dispositivos.dat", "rw");
-            raf.seek(raf.length());
+            if (this.id > ultimoId()) {
+                raf.seek(raf.length());
+            } else {
+                raf.seek((id - 1) * tamRegistro);
+            }
             raf.writeInt(id);
             limpiarCampo(raf, marca);
             limpiarCampo(raf, modelo);
@@ -109,42 +102,46 @@ public class Dispositivo {
             System.err.println("Error al abrir el archivo 2");
         }
     }
-    public int load(int idBuscado){
+
+    public int load(int idBuscado) {
         int idAnterior = ultimoId();
-        if(idBuscado > idAnterior){
+        if (idBuscado > idAnterior) {
             return 1;
-        }else{
-            int prueba = idBuscado -1 ;
-        int resultado = -1;
-        try{
-            RandomAccessFile raf = new RandomAccessFile("dispositivos.dat", "r");
-            raf.seek(prueba * tamRegistro);
-            if(raf.readInt() == idBuscado){
-                System.out.println("Encontrado el id");
-                long inicio = raf.getFilePointer();   
-                setMarca(raf.readUTF());
-                long fin = raf.getFilePointer();
-                for(int i = 0; i < tamCampo - (fin - inicio); i++){
-                    raf.readByte();
+        } else {
+            int prueba = idBuscado - 1;
+            int resultado = -1;
+            try {
+                RandomAccessFile raf = new RandomAccessFile("dispositivos.dat", "r");
+                raf.seek(prueba * tamRegistro);
+                if (raf.readInt() == idBuscado) {
+                    System.out.println("Encontrado el id");
+                    long inicio = raf.getFilePointer();
+                    setMarca(raf.readUTF());
+                    raf.seek(inicio + tamCampo);
+                    inicio = raf.getFilePointer();
+                    setModelo(raf.readUTF());
+                    raf.seek(inicio + tamCampo);
+                    setEstado(raf.readBoolean());
+                    setTipo(raf.readInt());
+                    setActivo(raf.readBoolean());
+                    setForeingKey(raf.readInt());
+                    if (activo == false) {
+                        resultado = 2;
+                    } else {
+                        resultado = 0;
+                    }
                 }
-                inicio = raf.getFilePointer();
-                setModelo(raf.readUTF());
-                fin = raf.getFilePointer();
-                for(int i = 0; i < tamCampo - (fin - inicio); i++){
-                    raf.readByte();
-                }
-                setEstado(raf.readBoolean());
-                setTipo(raf.readInt());
-                setActivo(raf.readBoolean());
-                setForeingKey(raf.readInt());
-                resultado = 0;
+                raf.close();
+            } catch (Exception e) {
+                System.err.println("Error al abrir el archivo 3");
+            }
+            return resultado;
         }
-            raf.close();
-        }catch(Exception e){
-            System.err.println("Error al abrir el archivo 3");
-        }
-        return resultado;
-        }
+    }
+
+    public void delete() {
+        setActivo(false);
+        save();
     }
 
     public void limpiarCampo(RandomAccessFile raf, String Campo) {
@@ -160,17 +157,18 @@ public class Dispositivo {
             System.out.println("Error al abrir el documento");
         }
     }
-    public int ultimoId(){
+
+    public int ultimoId() {
         int resultado = 0;
-        try{
+        try {
             RandomAccessFile raf = new RandomAccessFile("dispositivos.dat", "r");
             long tam = raf.length();
-            if(tam > 0){
+            if (tam > 0) {
                 raf.seek(tam - tamRegistro);
                 resultado = raf.readInt();
             }
             raf.close();
-        }catch(Exception e){
+        } catch (Exception e) {
             System.err.println("Error al abrir el archivo 4");
         }
         return resultado;
