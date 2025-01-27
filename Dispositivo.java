@@ -4,10 +4,10 @@ public class Dispositivo {
     private final int tamRegistro = 114;
     private final int tamCampo = 50;
     private int id; // 4 bytes
-    private String marca; // 100 bytes
-    private String modelo; // 100 bytes
+    private String marca; // 50 bytes
+    private String modelo; // 50 bytes
     private boolean estado; // 1 byte
-    private int tipo; // 4 bytes
+    private int tipo = 0; // 4 bytes
     private boolean activo; // 1 byte
     private int foreingKey = 0; // 4 bytes
 

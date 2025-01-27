@@ -2,13 +2,14 @@ import java.io.RandomAccessFile;
 
 public class Ordenador extends Dispositivo {
     final int tamCampo = 50;
-    final int tamRegistro = 172;
+    final int tamRegistro = 176;
 
     private int id; // 4 bytes
+    int id_Ordenador; // 4 bytes
     private String marca; // 50 bytes
     private String modelo; // 50 bytes
     private boolean estado; // 1 byte
-    private int tipo; // 4 bytes
+    private int tipo = 1; // 4 bytes
     private boolean activo; // 1 byte
     private int ram; // 4 bytes
     private String procesador; // 50 bytes
@@ -17,6 +18,7 @@ public class Ordenador extends Dispositivo {
 
     public Ordenador(String marca, String modelo, boolean estado, int tipo, boolean activo, int foreingKey, int ram,
             String procesador, int tamDisco, int tipoDisco) {
+        
         super(marca, modelo, estado, tipo, activo, foreingKey);
         this.ram = ram;
         this.procesador = procesador;
@@ -83,6 +85,7 @@ public class Ordenador extends Dispositivo {
                 raf.seek((id - 1) * tamRegistro);
             }
             raf.writeInt(id);
+            raf.writeInt(id_Ordenador);
             limpiarCampo(raf, marca);
             limpiarCampo(raf, modelo);
             raf.writeBoolean(estado);
@@ -98,7 +101,8 @@ public class Ordenador extends Dispositivo {
             return 1;
         }
     }
-    @Override 
+
+    @Override
     public int load(int idBuscado) {
         int idAnterior = ultimoId();
         if (idBuscado > idAnterior) {
@@ -107,7 +111,7 @@ public class Ordenador extends Dispositivo {
             idBuscado = idBuscado - 1;
             int resultado = -1;
             try {
-                RandomAccessFile raf = new RandomAccessFile("dispositivos.dat", "r");
+                RandomAccessFile raf = new RandomAccessFile("Ordenadores.dat", "r");
                 raf.seek(idBuscado * tamRegistro);
                 if (raf.readInt() == idBuscado) {
                     System.out.println("Encontrado el id");
