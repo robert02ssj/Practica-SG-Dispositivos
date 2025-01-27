@@ -1,5 +1,8 @@
 import java.io.RandomAccessFile;
 
+/**
+ * Clase que representa una impresora y extiende de la clase Dispositivo.
+ */
 public class Impresora extends Dispositivo {
     private final int tamRegistro = 120;
     private final int tamCampo = 50;
@@ -14,6 +17,19 @@ public class Impresora extends Dispositivo {
     private boolean color; // 1 byte
     private boolean scanner; // 1 byte
 
+    /**
+     * Constructor de la clase Impresora.
+     * 
+     * @param marca        Marca de la impresora.
+     * @param modelo       Modelo de la impresora.
+     * @param estado       Estado de la impresora.
+     * @param tipo         Tipo de dispositivo.
+     * @param activo       Indica si el dispositivo está activo.
+     * @param foreingKey   Clave foránea.
+     * @param tipoImpresora Tipo de impresora.
+     * @param color        Indica si la impresora es a color.
+     * @param scanner      Indica si la impresora tiene escáner.
+     */
     public Impresora(String marca, String modelo, boolean estado, int tipo, boolean activo, int foreingKey,
             int tipoImpresora, boolean color, boolean scanner) {
         super(marca, modelo, estado, tipo, activo, foreingKey);
@@ -22,6 +38,11 @@ public class Impresora extends Dispositivo {
         this.scanner = scanner;
     }
 
+    /**
+     * Constructor de la clase Impresora.
+     * 
+     * @param id Identificador de la impresora.
+     */
     public Impresora(int id) {
         super(id);
         this.tipoImpresora = 0;
@@ -29,30 +50,65 @@ public class Impresora extends Dispositivo {
         this.scanner = false;
     }
 
+    /**
+     * Establece el tipo de impresora.
+     * 
+     * @param tipoImpresora Tipo de impresora.
+     */
     public void setTipoImpresora(int tipoImpresora) {
         this.tipoImpresora = tipoImpresora;
     }
 
+    /**
+     * Establece si la impresora es a color.
+     * 
+     * @param color Indica si la impresora es a color.
+     */
     public void setColor(boolean color) {
         this.color = color;
     }
 
+    /**
+     * Establece si la impresora tiene escáner.
+     * 
+     * @param scanner Indica si la impresora tiene escáner.
+     */
     public void setScanner(boolean scanner) {
         this.scanner = scanner;
     }
 
+    /**
+     * Obtiene el tipo de impresora.
+     * 
+     * @return Tipo de impresora.
+     */
     public int getTipoImpresora() {
         return tipoImpresora;
     }
 
+    /**
+     * Obtiene si la impresora es a color.
+     * 
+     * @return Indica si la impresora es a color.
+     */
     public boolean getColor() {
         return color;
     }
 
+    /**
+     * Obtiene si la impresora tiene escáner.
+     * 
+     * @return Indica si la impresora tiene escáner.
+     */
     public boolean getScanner() {
         return scanner;
     }
 
+    /**
+     * Devuelve una representación en cadena de la impresora.
+     * 
+     * @return Cadena que representa la impresora.
+     */
     @Override
     public String toString() {
         return "Impresora [id=" + id + ", marca=" + marca + ", modelo=" + modelo + ", estado=" + estado + ", tipo="
@@ -60,6 +116,11 @@ public class Impresora extends Dispositivo {
                 + scanner + "]";
     }
 
+    /**
+     * Guarda la información de la impresora en un archivo.
+     * 
+     * @return 0 si se guarda correctamente, 1 si ocurre un error.
+     */
     @Override
     public int save() {
         try {
@@ -85,6 +146,13 @@ public class Impresora extends Dispositivo {
             return 1;
         }
     }
+
+    /**
+     * Limpia un campo en el archivo.
+     * 
+     * @param raf   Archivo de acceso aleatorio.
+     * @param Campo Campo a limpiar.
+     */
     @Override
     public void limpiarCampo(RandomAccessFile raf, String Campo) {
         try {
@@ -99,6 +167,12 @@ public class Impresora extends Dispositivo {
             System.out.println("Error al abrir el documento");
         }
     }
+
+    /**
+     * Obtiene el último identificador utilizado.
+     * 
+     * @return Último identificador utilizado.
+     */
     @Override
     public int ultimoId() {
         int resultado = 0;
