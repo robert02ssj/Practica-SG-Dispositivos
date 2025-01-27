@@ -1,90 +1,82 @@
 import java.io.RandomAccessFile;
 
-public class Dispositivo {
-    private final int tamRegistro = 114;
-    private final int tamCampo = 50;
+public class Ordenador extends Dispositivo {
+    final int tamCampo = 50;
+    final int tamRegistro = 172;
+
     private int id; // 4 bytes
-    private String marca; // 100 bytes
-    private String modelo; // 100 bytes
+    private String marca; // 50 bytes
+    private String modelo; // 50 bytes
     private boolean estado; // 1 byte
     private int tipo; // 4 bytes
     private boolean activo; // 1 byte
-    private int foreingKey = 0; // 4 bytes
+    private int ram; // 4 bytes
+    private String procesador; // 50 bytes
+    private int tamDisco; // 4 bytes
+    private int tipoDisco; // 4 bytes
 
-    public Dispositivo(String marca, String modelo, boolean estado, int tipo, boolean activo, int foreingKey) {
-        this.id = ultimoId() + 1;
-        this.marca = marca;
-        this.modelo = modelo;
-        this.estado = estado;
-        this.tipo = tipo;
-        this.activo = activo;
-        this.foreingKey = foreingKey;
+    public Ordenador(String marca, String modelo, boolean estado, int tipo, boolean activo, int foreingKey, int ram,
+            String procesador, int tamDisco, int tipoDisco) {
+        super(marca, modelo, estado, tipo, activo, foreingKey);
+        this.ram = ram;
+        this.procesador = procesador;
+        this.tamDisco = tamDisco;
+        this.tipoDisco = tipoDisco;
 
     }
 
-    public Dispositivo(int id) {
-        this.id = id;
-        this.marca = "";
-        this.modelo = "";
-        this.estado = true;
+    public Ordenador(int id) {
+        super(id);
+        this.ram = 0;
+        this.procesador = "";
+        this.tamDisco = 0;
+        this.tipoDisco = 0;
     }
 
-    public void setMarca(String marca) {
-        this.marca = marca;
+    public void setRam(int ram) {
+        this.ram = ram;
     }
 
-    public void setModelo(String modelo) {
-        this.modelo = modelo;
+    public void setProcesador(String procesador) {
+        this.procesador = procesador;
     }
 
-    public void setEstado(boolean estado) {
-        this.estado = estado;
+    public void setTamDisco(int tamDisco) {
+        this.tamDisco = tamDisco;
+
     }
 
-    public void setTipo(int tipo) {
-        this.tipo = tipo;
+    public void setTipoDisco(int tipoDisco) {
+        this.tipoDisco = tipoDisco;
     }
 
-    public void setActivo(boolean activo) {
-        this.activo = activo;
+    public int getRam() {
+        return ram;
     }
 
-    public void setForeingKey(int foreingKey) {
-        this.foreingKey = foreingKey;
+    public String getProcesador() {
+        return procesador;
     }
 
-    public String getMarca() {
-        return marca;
+    public int getTamDisco() {
+        return tamDisco;
     }
 
-    public String getModelo() {
-        return modelo;
+    public int getTipoDisco() {
+        return tipoDisco;
     }
 
-    public boolean getEstado() {
-        return estado;
-    }
-
-    public int getTipo() {
-        return tipo;
-    }
-
-    public boolean getActivo() {
-        return activo;
-    }
-
-    public int getForeingKey() {
-        return foreingKey;
-    }
-
+    @Override
     public String toString() {
-        return "id=" + id + ", marca=" + marca + ", modelo=" + modelo + ", estado=" + estado + ", tipo=" + tipo
-                + ", activo=" + activo + ", foreingKey=" + foreingKey + '}';
+        return "Ordenador [id=" + id + ", marca=" + marca + ", modelo=" + modelo + ", estado=" + estado + ", tipo="
+                + tipo + ", activo=" + activo + ", ram=" + ram + ", procesador=" + procesador + ", tamDisco=" + tamDisco
+                + ", tipoDisco=" + tipoDisco + "]";
     }
 
+    @Override
     public int save() {
         try {
-            RandomAccessFile raf = new RandomAccessFile("dispositivos.dat", "rw");
+            RandomAccessFile raf = new RandomAccessFile("Ordenadores.dat", "rw");
             if (this.id > ultimoId()) {
                 raf.seek(raf.length());
             } else {
@@ -96,24 +88,27 @@ public class Dispositivo {
             raf.writeBoolean(estado);
             raf.writeInt(tipo);
             raf.writeBoolean(activo);
-            raf.writeInt(foreingKey);
+            raf.writeInt(ram);
+            limpiarCampo(raf, procesador);
+            raf.writeInt(tamDisco);
+            raf.writeInt(tipoDisco);
             raf.close();
             return 0;
         } catch (Exception e) {
             return 1;
         }
     }
-
+    @Override 
     public int load(int idBuscado) {
         int idAnterior = ultimoId();
         if (idBuscado > idAnterior) {
             return 1;
         } else {
-            int prueba = idBuscado - 1;
+            idBuscado = idBuscado - 1;
             int resultado = -1;
             try {
                 RandomAccessFile raf = new RandomAccessFile("dispositivos.dat", "r");
-                raf.seek(prueba * tamRegistro);
+                raf.seek(idBuscado * tamRegistro);
                 if (raf.readInt() == idBuscado) {
                     System.out.println("Encontrado el id");
                     long inicio = raf.getFilePointer();
@@ -125,7 +120,12 @@ public class Dispositivo {
                     setEstado(raf.readBoolean());
                     setTipo(raf.readInt());
                     setActivo(raf.readBoolean());
-                    setForeingKey(raf.readInt());
+                    setRam(raf.readInt());
+                    inicio = raf.getFilePointer();
+                    setProcesador(raf.readUTF());
+                    raf.seek(inicio + tamCampo);
+                    setTamDisco(raf.readInt());
+                    setTipoDisco(raf.readInt());
                     if (activo == false) {
                         resultado = 2;
                     } else {
@@ -140,11 +140,7 @@ public class Dispositivo {
         }
     }
 
-    public void delete() {
-        setActivo(false);
-        save();
-    }
-
+    @Override
     public void limpiarCampo(RandomAccessFile raf, String Campo) {
         try {
             long inicio = raf.getFilePointer();
@@ -159,10 +155,11 @@ public class Dispositivo {
         }
     }
 
+    @Override
     public int ultimoId() {
         int resultado = 0;
         try {
-            RandomAccessFile raf = new RandomAccessFile("dispositivos.dat", "r");
+            RandomAccessFile raf = new RandomAccessFile("Ordenadores.dat", "r");
             long tam = raf.length();
             if (tam > 0) {
                 raf.seek(tam - tamRegistro);
