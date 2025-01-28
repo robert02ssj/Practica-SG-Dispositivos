@@ -5,16 +5,9 @@ import java.io.RandomAccessFile;
  * Hereda de la clase Dispositivo y añade atributos específicos de un ordenador.
  */
 public class Ordenador extends Dispositivo {
-    final int tamCampo = 50;
-    final int tamRegistro = 176;
-
-    private int id; // 4 bytes
+    private final int tamCampo = 50;
+    private final int tamRegistro = 66;
     int id_Ordenador; // 4 bytes
-    private String marca; // 50 bytes
-    private String modelo; // 50 bytes
-    private boolean estado; // 1 byte
-    private int tipo = 1; // 4 bytes
-    private boolean activo; // 1 byte
     private int ram; // 4 bytes
     private String procesador; // 50 bytes
     private int tamDisco; // 4 bytes
@@ -28,21 +21,20 @@ public class Ordenador extends Dispositivo {
      * @param estado      Estado del ordenador.
      * @param tipo        Tipo del ordenador.
      * @param activo      Indica si el ordenador está activo.
-     * @param foreingKey  Clave foránea.
      * @param ram         Cantidad de memoria RAM.
      * @param procesador  Tipo de procesador.
      * @param tamDisco    Tamaño del disco.
      * @param tipoDisco   Tipo de disco.
      */
-    public Ordenador(String marca, String modelo, boolean estado, int tipo, boolean activo, int foreingKey, int ram,
+    public Ordenador(String marca, String modelo, boolean estado, boolean activo, int ram,
             String procesador, int tamDisco, int tipoDisco) {
-        
-        super(marca, modelo, estado, tipo, activo, foreingKey);
+        super(marca, modelo, estado, 1, activo);
+        id_Ordenador = ultimoId() + 1;
+        setForeingKey(id_Ordenador);
         this.ram = ram;
         this.procesador = procesador;
         this.tamDisco = tamDisco;
         this.tipoDisco = tipoDisco;
-
     }
 
     /**
@@ -138,8 +130,7 @@ public class Ordenador extends Dispositivo {
      */
     @Override
     public String toString() {
-        return "Ordenador [id=" + id + ", marca=" + marca + ", modelo=" + modelo + ", estado=" + estado + ", tipo="
-                + tipo + ", activo=" + activo + ", ram=" + ram + ", procesador=" + procesador + ", tamDisco=" + tamDisco
+        return super.toString() + "ram=" + ram + ", procesador=" + procesador + ", tamDisco=" + tamDisco
                 + ", tipoDisco=" + tipoDisco + "]";
     }
 
@@ -150,20 +141,15 @@ public class Ordenador extends Dispositivo {
      */
     @Override
     public int save() {
+        super.save();
         try {
             RandomAccessFile raf = new RandomAccessFile("Ordenadores.dat", "rw");
-            if (this.id > ultimoId()) {
+            if (this.id_Ordenador > ultimoId()) {
                 raf.seek(raf.length());
             } else {
-                raf.seek((id - 1) * tamRegistro);
+                raf.seek((id_Ordenador - 1) * tamRegistro);
             }
-            raf.writeInt(id);
             raf.writeInt(id_Ordenador);
-            limpiarCampo(raf, marca);
-            limpiarCampo(raf, modelo);
-            raf.writeBoolean(estado);
-            raf.writeInt(tipo);
-            raf.writeBoolean(activo);
             raf.writeInt(ram);
             limpiarCampo(raf, procesador);
             raf.writeInt(tamDisco);
@@ -209,7 +195,7 @@ public class Ordenador extends Dispositivo {
                     raf.seek(inicio + tamCampo);
                     setTamDisco(raf.readInt());
                     setTipoDisco(raf.readInt());
-                    if (activo == false) {
+                    if (getActivo() == false) {
                         resultado = 2;
                     } else {
                         resultado = 0;

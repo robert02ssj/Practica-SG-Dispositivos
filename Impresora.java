@@ -4,15 +4,8 @@ import java.io.RandomAccessFile;
  * Clase que representa una impresora y extiende de la clase Dispositivo.
  */
 public class Impresora extends Dispositivo {
-    private final int tamRegistro = 120;
-    private final int tamCampo = 50;
-    private int id; // 4 bytes
+    private final int tamRegistro = 10;
     private int id_Impresora; // 4 bytes
-    private String marca; // 50 bytes
-    private String modelo; // 50 bytes
-    private boolean estado; // 1 byte
-    private int tipo = 2; // 4 bytes
-    private boolean activo; // 1 byte
     private int tipoImpresora; // 4 bytes
     private boolean color; // 1 byte
     private boolean scanner; // 1 byte
@@ -30,9 +23,11 @@ public class Impresora extends Dispositivo {
      * @param color        Indica si la impresora es a color.
      * @param scanner      Indica si la impresora tiene escáner.
      */
-    public Impresora(String marca, String modelo, boolean estado, int tipo, boolean activo, int foreingKey,
+    public Impresora(String marca, String modelo, boolean estado, boolean activo,
             int tipoImpresora, boolean color, boolean scanner) {
-        super(marca, modelo, estado, tipo, activo, foreingKey);
+        super(marca, modelo, estado, 2, activo);
+        this.id_Impresora = ultimoId() + 1;
+        setForeingKey(id_Impresora);
         this.tipoImpresora = tipoImpresora;
         this.color = color;
         this.scanner = scanner;
@@ -111,8 +106,7 @@ public class Impresora extends Dispositivo {
      */
     @Override
     public String toString() {
-        return "Impresora [id=" + id + ", marca=" + marca + ", modelo=" + modelo + ", estado=" + estado + ", tipo="
-                + tipo + ", activo=" + activo + ", tipoImpresora=" + tipoImpresora + ", color=" + color + ", scanner="
+        return super.toString() + "tipoImpresora=" + tipoImpresora + ", color=" + color + ", scanner="
                 + scanner + "]";
     }
 
@@ -123,20 +117,15 @@ public class Impresora extends Dispositivo {
      */
     @Override
     public int save() {
+        super.save();
         try {
             RandomAccessFile raf = new RandomAccessFile("Impresoras.dat", "rw");
-            if (this.id > ultimoId()) {
+            if (this.id_Impresora > ultimoId()) {
                 raf.seek(raf.length());
             } else {
-                raf.seek((id - 1) * tamRegistro);
+                raf.seek((id_Impresora - 1) * tamRegistro);
             }
-            raf.writeInt(id);
             raf.writeInt(id_Impresora);
-            limpiarCampo(raf, marca);
-            limpiarCampo(raf, modelo);
-            raf.writeBoolean(estado);
-            raf.writeInt(tipo);
-            raf.writeBoolean(activo);
             raf.writeInt(tipoImpresora);
             raf.writeBoolean(color);
             raf.writeBoolean(scanner);
@@ -146,28 +135,6 @@ public class Impresora extends Dispositivo {
             return 1;
         }
     }
-
-    /**
-     * Limpia un campo en el archivo.
-     * 
-     * @param raf   Archivo de acceso aleatorio.
-     * @param Campo Campo a limpiar.
-     */
-    @Override
-    public void limpiarCampo(RandomAccessFile raf, String Campo) {
-        try {
-            long inicio = raf.getFilePointer();
-            raf.writeUTF(Campo);
-            long end = raf.getFilePointer();
-            for (int i = 0; i < tamCampo - (end - inicio); i++) {
-                raf.writeByte(0);
-            }
-
-        } catch (Exception e) {
-            System.out.println("Error al abrir el documento");
-        }
-    }
-
     /**
      * Obtiene el último identificador utilizado.
      * 

@@ -13,7 +13,7 @@ public class Dispositivo {
     private boolean estado; // 1 byte
     private int tipo = 0; // 4 bytes
     private boolean activo; // 1 byte
-    private int foreingKey = 0; // 4 bytes
+    protected int foreingKey = -1; // 4 bytes
 
     /**
      * Constructor que inicializa un dispositivo con los valores proporcionados.
@@ -23,17 +23,15 @@ public class Dispositivo {
      * @param estado     El estado del dispositivo.
      * @param tipo       El tipo de dispositivo.
      * @param activo     Indica si el dispositivo está activo.
-     * @param foreingKey La clave foránea asociada al dispositivo.
+     *
      */
-    public Dispositivo(String marca, String modelo, boolean estado, int tipo, boolean activo, int foreingKey) {
+    public Dispositivo(String marca, String modelo, boolean estado, int tipo, boolean activo) {
         this.id = ultimoId() + 1;
         this.marca = marca;
         this.modelo = modelo;
         this.estado = estado;
         this.tipo = tipo;
         this.activo = activo;
-        this.foreingKey = foreingKey;
-
     }
 
     /**

@@ -1,3 +1,5 @@
+import java.io.FileNotFoundException;
+import java.io.RandomAccessFile;
 import java.util.ArrayList;
 
 public class Main {
@@ -6,7 +8,7 @@ public class Main {
     private static boolean Fallo = false;
 
     public static void main(String[] args) {
-        // cargardatos();
+        //cargardatos();
         do {
             Borrarpantalla();
             menuPrincipal();
@@ -40,9 +42,51 @@ public class Main {
      * Este metodo se encarga de cargar los datos de los dispositivos
      * 
      */
-    public static void cargardatos(){
+    // public static void cargardatos(){
         //EN PROCESO DE DESARROLLO
-    }
+    //     try {
+    //         RandomAccessFile raf = new RandomAccessFile("dispositivos.dat", "rw");
+    //         while (raf.getFilePointer() < raf.length()) {
+    //             int id = raf.readInt();
+    //             String marca = raf.readUTF();
+    //             String modelo = raf.readUTF();
+    //             boolean estado = raf.readBoolean();
+    //             int tipo = raf.readInt();
+    //             boolean activo = raf.readBoolean();
+    //             switch (tipo) {
+    //                 case 1:
+    //                     int ram = raf.readInt();
+    //                     String procesador = raf.readUTF();
+    //                     int tamDisco = raf.readInt();
+    //                     int tipoDisco = raf.readInt();
+    //                     Ordenador ordenador = new Ordenador(marca, modelo, estado, activo, ram, procesador,
+    //                             tamDisco, tipoDisco);
+    //                     ordenador.setForeingKey(id);
+    //                     ListaDispositivos.add(ordenador);
+    //                     break;
+    //                 case 2:
+    //                     int tipoImpresora = raf.readInt();
+    //                     boolean color = raf.readBoolean();
+    //                     boolean scanner = raf.readBoolean();
+    //                     Impresora impresora = new Impresora(marca, modelo, estado, activo, tipoImpresora,
+    //                             color,
+    //                             scanner);
+    //                     impresora.setForeingKey(id);
+    //                     ListaDispositivos.add(impresora);
+    //                     break;
+    //                 default:
+    //                     Dispositivo dispositivo = new Dispositivo(marca, modelo, estado, tipo, activo);
+    //                     dispositivo.setForeingKey(id);
+    //                     ListaDispositivos.add(dispositivo);
+    //                     break;
+    //             }
+    //         }
+
+    //     } catch (FileNotFoundException e) {
+    //         System.out.println("Error al abrir el archivo");
+    //     }
+        
+    // }
 
     public static void menuPrincipal() {
         System.out.print("""
@@ -74,8 +118,6 @@ public class Main {
         boolean estado = Boolean.parseBoolean(System.console().readLine());
         System.out.println("Introduce si el dispositivo está activo");
         boolean activo = Boolean.parseBoolean(System.console().readLine());
-        System.out.println("Introduce la clave foránea asociada al dispositivo");
-        int foreingKey = Integer.parseInt(System.console().readLine());
         System.out.println("Introduce el tipo del dispositivo");
         int tipo = Integer.parseInt(System.console().readLine());
         switch (tipo) {
@@ -88,7 +130,7 @@ public class Main {
                 int tamDisco = Integer.parseInt(System.console().readLine());
                 System.out.println("Introduce el tipo de disco");
                 int tipoDisco = Integer.parseInt(System.console().readLine());
-                Ordenador ordenador = new Ordenador(marca, modelo, estado, tipo, activo, foreingKey, ram, procesador,
+                Ordenador ordenador = new Ordenador(marca, modelo, estado, activo, ram, procesador,
                         tamDisco, tipoDisco);
                 System.out.println(ordenador.save());
                 ListaDispositivos.add(ordenador);
@@ -100,14 +142,14 @@ public class Main {
                 boolean color = Boolean.parseBoolean(System.console().readLine());
                 System.out.println("Introduce si la impresora tiene escáner");
                 boolean scanner = Boolean.parseBoolean(System.console().readLine());
-                Impresora impresora = new Impresora(marca, modelo, estado, tipo, activo, foreingKey, tipoImpresora,
+                Impresora impresora = new Impresora(marca, modelo, estado, activo,tipoImpresora,
                         color,
                         scanner);
                 System.out.println(impresora.save());
                 ListaDispositivos.add(impresora);
                 break;
             default:
-                Dispositivo dispositivo = new Dispositivo(marca, modelo, estado, tipo, activo, foreingKey);
+                Dispositivo dispositivo = new Dispositivo(marca, modelo, estado, tipo, activo);
                 ListaDispositivos.add(dispositivo);
                 System.out.println(dispositivo.save());
                 break;
