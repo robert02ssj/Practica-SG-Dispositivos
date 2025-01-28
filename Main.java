@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 
 public class Main {
-    private ArrayList<Dispositivo> ListaDispositivos = new ArrayList<Dispositivo>();
+    private static ArrayList<Dispositivo> ListaDispositivos = new ArrayList<Dispositivo>();
     private static int opcion = 0;
     private static boolean Fallo = false;
 
@@ -13,27 +13,35 @@ public class Main {
             SelectorOpcion();
             switch (opcion) {
                 case 1:
-                    //anadirDispositivo();
+                    anadirDispositivo();
                     break;
                 case 2:
-                    // mostrarDispositivos();
+                    mostrarDispositivos();
                     break;
                 case 3:
-                    // buscarDispositivo();
+                    buscarDispositivo();
                     break;
                 case 4:
-                    // borrarDispositivo();
+                    borrarDispositivo();
                     break;
                 case 5:
-                    // cambiarEstadoDispositivo();
+                    cambiarEstadoDispositivo();
                     break;
                 case 6:
-                    // modificarDispositivo();
+                    modificarDispositivo();
                     break;
             }
         } while (opcion != 0);
         Borrarpantalla();
         Despedida();
+    }
+
+    /**
+     * Este metodo se encarga de cargar los datos de los dispositivos
+     * 
+     */
+    public static void cargardatos(){
+        //EN PROCESO DE DESARROLLO
     }
 
     public static void menuPrincipal() {
@@ -50,6 +58,120 @@ public class Main {
                 --------------
                 Introduce una opción:
                 """);
+    }
+
+    /**
+     * Añade un nuevo dispositivo a la lista de dispositivos.
+     * Solicita al usuario los datos necesarios para crear un dispositivo,
+     * ordenador o impresora, según el tipo especificado.
+     */
+    public static void anadirDispositivo() {
+        System.out.println("Introduce la marca del dispositivo");
+        String marca = System.console().readLine();
+        System.out.println("Introduce el modelo del dispositivo");
+        String modelo = System.console().readLine();
+        System.out.println("Introduce el estado del dispositivo");
+        boolean estado = Boolean.parseBoolean(System.console().readLine());
+        System.out.println("Introduce si el dispositivo está activo");
+        boolean activo = Boolean.parseBoolean(System.console().readLine());
+        System.out.println("Introduce la clave foránea asociada al dispositivo");
+        int foreingKey = Integer.parseInt(System.console().readLine());
+        System.out.println("Introduce el tipo del dispositivo");
+        int tipo = Integer.parseInt(System.console().readLine());
+        switch (tipo) {
+            case 1:
+                System.out.println("Introduce la cantidad de memoria RAM");
+                int ram = Integer.parseInt(System.console().readLine());
+                System.out.println("Introduce el tipo de procesador");
+                String procesador = System.console().readLine();
+                System.out.println("Introduce el tamaño del disco");
+                int tamDisco = Integer.parseInt(System.console().readLine());
+                System.out.println("Introduce el tipo de disco");
+                int tipoDisco = Integer.parseInt(System.console().readLine());
+                Ordenador ordenador = new Ordenador(marca, modelo, estado, tipo, activo, foreingKey, ram, procesador,
+                        tamDisco, tipoDisco);
+                System.out.println(ordenador.save());
+                ListaDispositivos.add(ordenador);
+                break;
+            case 2:
+                System.out.println("Introduce el tipo de impresora");
+                int tipoImpresora = Integer.parseInt(System.console().readLine());
+                System.out.println("Introduce si la impresora es a color");
+                boolean color = Boolean.parseBoolean(System.console().readLine());
+                System.out.println("Introduce si la impresora tiene escáner");
+                boolean scanner = Boolean.parseBoolean(System.console().readLine());
+                Impresora impresora = new Impresora(marca, modelo, estado, tipo, activo, foreingKey, tipoImpresora,
+                        color,
+                        scanner);
+                System.out.println(impresora.save());
+                ListaDispositivos.add(impresora);
+                break;
+            default:
+                Dispositivo dispositivo = new Dispositivo(marca, modelo, estado, tipo, activo, foreingKey);
+                ListaDispositivos.add(dispositivo);
+                System.out.println(dispositivo.save());
+                break;
+        }
+        menuPrincipal();
+    }
+
+    /**
+     * Muestra los dispositivos almacenados en la lista de dispositivos.
+     * 
+     */
+    public static void mostrarDispositivos() {
+        for (int i = 0; i < ListaDispositivos.size(); i++) {
+            System.out.println(ListaDispositivos.get(i).toString());
+        }
+        menuPrincipal();
+    }
+
+    /**
+     * Este metodo Busca un dispositivo en la lista de dispositivos.
+     * 
+     */
+    public static void buscarDispositivo() {
+        System.out.println("Introduce el ID del dispositivo a buscar");
+        int id = Integer.parseInt(System.console().readLine());
+        ListaDispositivos.get(id).toString();
+        menuPrincipal();
+    }
+
+    /**
+     * Este metodo se encarga de borrar un dispositivo de la lista de dispositivos.
+     * 
+     */
+    public static void borrarDispositivo() {
+        System.out.println("Introduce el ID del dispositivo a borrar");
+        int id = Integer.parseInt(System.console().readLine());
+        ListaDispositivos.get(id).delete();
+        menuPrincipal();
+
+    }
+
+    /**
+     * Este metodo se encarga de cambiar el estado de un dispositivo de la lista de
+     * dispositivos.
+     * 
+     */
+    public static void cambiarEstadoDispositivo() {
+        System.out.println("Introduce el ID del dispositivo a cambiar el estado");
+        int id = Integer.parseInt(System.console().readLine());
+        ListaDispositivos.get(id).cambiarEstado();
+        menuPrincipal();
+    }
+
+    /**
+     * Este metodo se encarga de modificar un dispositivo de la lista de
+     * dispositivos.
+     * 
+     */
+    public static void modificarDispositivo() {
+        System.out.println("Introduce el ID del dispositivo a modificar");
+        int id = Integer.parseInt(System.console().readLine());
+        ListaDispositivos.get(id).toString();
+        anadirDispositivo();
+        menuPrincipal();
     }
 
     /**
@@ -92,7 +214,8 @@ public class Main {
             System.out.println();
         }
     }
-     /**
+
+    /**
      * Este metodo se encarga de mostrar un Mensaje de Despedida
      * 
      */

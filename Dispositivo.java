@@ -45,7 +45,10 @@ public class Dispositivo {
         this.id = id;
         this.marca = "";
         this.modelo = "";
-        this.estado = true;
+        this.estado = false;
+        this.tipo = 0;
+        this.activo = false;
+        this.foreingKey = 0;
     }
 
     /**
@@ -238,6 +241,17 @@ public class Dispositivo {
         save();
     }
 
+    /**
+     * Cambia el estado del dispositivo Alternando el mismo y guarda los cambios en el archivo.
+     */
+    public void cambiarEstado() {
+        if (estado == true) {
+            setEstado(false);
+        } else {
+            setEstado(true);
+        }   
+        save();
+    }
     /**
      * Limpia un campo en el archivo, rellenando con ceros hasta alcanzar el tamaño del campo.
      * 
