@@ -8,12 +8,13 @@ public class Dispositivo {
     private final int tamRegistro = 114;
     private final int tamCampo = 50;
     private int id; // 4 bytes
+    private int tipo = 0; // 4 bytes
+    protected int foreingKey = -1; // 4 bytes
     private String marca; // 50 bytes
     private String modelo; // 50 bytes
     private boolean estado; // 1 byte
-    private int tipo = 0; // 4 bytes
-    private boolean activo; // 1 byte
-    protected int foreingKey = -1; // 4 bytes
+    private boolean borrado; // 1 byte
+    
 
     /**
      * Constructor que inicializa un dispositivo con los valores proporcionados.
@@ -22,16 +23,16 @@ public class Dispositivo {
      * @param modelo El modelo del dispositivo.
      * @param estado El estado del dispositivo.
      * @param tipo   El tipo de dispositivo.
-     * @param activo Indica si el dispositivo está activo.
+     * @param borrado Indica si el dispositivo está borrado.
      *
      */
-    public Dispositivo(String marca, String modelo, boolean estado, int tipo, boolean activo) {
-        this.id = ultimoId() + 1;
+    public Dispositivo(String marca, String modelo, boolean estado, int tipo, boolean borrado) {
+        this.id = ultimoIdDisp() + 1;
         this.marca = marca;
         this.modelo = modelo;
         this.estado = estado;
         this.tipo = tipo;
-        this.activo = activo;
+        this.borrado = borrado;
     }
 
     /**
@@ -45,7 +46,7 @@ public class Dispositivo {
         this.modelo = "";
         this.estado = false;
         this.tipo = 0;
-        this.activo = false;
+        this.borrado = false;
         this.foreingKey = 0;
     }
 
@@ -86,12 +87,12 @@ public class Dispositivo {
     }
 
     /**
-     * Establece si el dispositivo está activo.
+     * Establece si el dispositivo está borrado.
      * 
-     * @param activo El nuevo estado de actividad del dispositivo.
+     * @param borrado El nuevo estado de actividad del dispositivo.
      */
-    public void setActivo(boolean activo) {
-        this.activo = activo;
+    public void setBorrado(boolean borrado) {
+        this.borrado = borrado;
     }
 
     /**
@@ -140,12 +141,12 @@ public class Dispositivo {
     }
 
     /**
-     * Obtiene si el dispositivo está activo.
+     * Obtiene si el dispositivo está borrado.
      * 
-     * @return true si el dispositivo está activo, false en caso contrario.
+     * @return true si el dispositivo está borrado, false en caso contrario.
      */
-    public boolean getActivo() {
-        return activo;
+    public boolean getBorrado() {
+        return borrado;
     }
 
     /**
@@ -158,8 +159,8 @@ public class Dispositivo {
     }
 
     public String toString() {
-        return "id=" + id + ", marca=" + marca + ", modelo=" + modelo + ", estado=" + estado + ", tipo=" + tipo
-                + ", activo=" + activo + ", foreingKey=" + foreingKey + '}';
+        return "[ id: " + id + " , Marca: " + marca + " , Modelo: " + modelo + " , Estado: " + estado + ", Tipo: " + tipo
+                + ", borrado: " + borrado + " , foreingKey: " + foreingKey + " , ";
     }
 
     /**
@@ -170,7 +171,7 @@ public class Dispositivo {
     public int save() {
         try {
             RandomAccessFile raf = new RandomAccessFile("dispositivos.dat", "rw");
-            if (this.id > ultimoId()) {
+            if (this.id > ultimoIdDisp()) {
                 raf.seek(raf.length());
             } else {
                 raf.seek((id - 1) * tamRegistro);
@@ -181,7 +182,7 @@ public class Dispositivo {
             limpiarCampo(raf, marca);
             limpiarCampo(raf, modelo);
             raf.writeBoolean(estado);
-            raf.writeBoolean(activo);
+            raf.writeBoolean(borrado);
             raf.close();
             return 0;
         } catch (Exception e) {
@@ -194,11 +195,11 @@ public class Dispositivo {
      * 
      * @param idBuscado El ID del dispositivo a buscar.
      * @return 0 si se carga correctamente, 1 si el ID no existe, 2 si el
-     *         dispositivo no está activo.
+     *         dispositivo no está borrado.
      */
     public int load() {
         int idBuscado = this.id;
-        int idAnterior = ultimoId();
+        int idAnterior = ultimoIdDisp();
         if (idBuscado > idAnterior) {
             return 1;
         } else {
@@ -217,8 +218,8 @@ public class Dispositivo {
                     setModelo(raf.readUTF());
                     raf.seek(inicio + tamCampo);
                     setEstado(raf.readBoolean());
-                    setActivo(raf.readBoolean());
-                    if (activo == false) {
+                    setBorrado(raf.readBoolean());
+                    if (borrado == false) {
                         resultado = 2;
                     } else {
                         resultado = 0;
@@ -234,10 +235,10 @@ public class Dispositivo {
     }
 
     /**
-     * Marca el dispositivo como inactivo y guarda los cambios en el archivo.
+     * Marca el dispositivo como inborrado y guarda los cambios en el archivo.
      */
     public void delete() {
-        setActivo(false);
+        setBorrado(false);
         save();
     }
 
@@ -280,10 +281,10 @@ public class Dispositivo {
      * 
      * @return El último ID utilizado.
      */
-    public int ultimoId() {
+    public int ultimoIdDisp() {
         int resultado = 0;
         try {
-            RandomAccessFile raf = new RandomAccessFile("dispositivos.dat", "r");
+            RandomAccessFile raf = new RandomAccessFile("dispositivos.dat", "rw");
             long tam = raf.length();
             if (tam > 0) {
                 raf.seek(tam - tamRegistro);

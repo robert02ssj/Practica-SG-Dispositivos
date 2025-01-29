@@ -17,16 +17,17 @@ public class Impresora extends Dispositivo {
      * @param modelo        Modelo de la impresora.
      * @param estado        Estado de la impresora.
      * @param tipo          Tipo de dispositivo.
-     * @param activo        Indica si el dispositivo está activo.
+     * @param borrado        Indica si el dispositivo está borrado.
      * @param foreingKey    Clave foránea.
      * @param tipoImpresora Tipo de impresora.
      * @param color         Indica si la impresora es a color.
      * @param scanner       Indica si la impresora tiene escáner.
      */
-    public Impresora(String marca, String modelo, boolean estado, boolean activo,
+    public Impresora(String marca, String modelo, boolean estado, boolean borrado,
             int tipoImpresora, boolean color, boolean scanner) {
-        super(marca, modelo, estado, 2, activo);
-        this.id_Impresora = ultimoId() + 1;
+        
+        super(marca, modelo, estado, 2, borrado);
+        this.id_Impresora = ultimoIdImpresora() + 1;
         setForeingKey(id_Impresora);
         this.tipoImpresora = tipoImpresora;
         this.color = color;
@@ -106,8 +107,8 @@ public class Impresora extends Dispositivo {
      */
     @Override
     public String toString() {
-        return super.toString() + "tipoImpresora=" + tipoImpresora + ", color=" + color + ", scanner="
-                + scanner + "]";
+        return super.toString() + " tipoImpresora: " + tipoImpresora + " , color: " + color + " , scanner: "
+                + scanner + " ]";
     }
 
     /**
@@ -120,7 +121,7 @@ public class Impresora extends Dispositivo {
         super.save();
         try {
             RandomAccessFile raf = new RandomAccessFile("Impresoras.dat", "rw");
-            if (this.id_Impresora > ultimoId()) {
+            if (this.id_Impresora > ultimoIdImpresora()) {
                 raf.seek(raf.length());
             } else {
                 raf.seek((id_Impresora - 1) * tamRegistro);
@@ -145,20 +146,20 @@ public class Impresora extends Dispositivo {
     @Override
     public int load() {
         int idBuscado = this.id_Impresora;
-        int idAnterior = ultimoId();
+        super.load();
+        int idAnterior = ultimoIdImpresora();
         if (idBuscado > idAnterior) {
             return 1;
         } else {
-            idBuscado = idBuscado - 1;
             int resultado = -1;
             try {
                 RandomAccessFile raf = new RandomAccessFile("Impresoras.dat", "r");
                 raf.seek(idBuscado * tamRegistro);
-                if (raf.readInt() == idBuscado) {
+                if (raf.readInt() == idBuscado + 1) {
                     setTipoImpresora(raf.readInt());
                     setColor(raf.readBoolean());
                     setScanner(raf.readBoolean());
-                    if (getActivo() == false) {
+                    if (getBorrado() == false) {
                         resultado = 2;
                     } else {
                         resultado = 0;
@@ -177,11 +178,11 @@ public class Impresora extends Dispositivo {
      * 
      * @return Último identificador utilizado.
      */
-    @Override
-    public int ultimoId() {
+    
+    public int ultimoIdImpresora() {
         int resultado = 0;
         try {
-            RandomAccessFile raf = new RandomAccessFile("Impresoras.dat", "r");
+            RandomAccessFile raf = new RandomAccessFile("Impresoras.dat", "rw");
             long tam = raf.length();
             if (tam > 0) {
                 raf.seek(tam - tamRegistro);

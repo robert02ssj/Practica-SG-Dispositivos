@@ -20,16 +20,16 @@ public class Ordenador extends Dispositivo {
      * @param modelo      Modelo del ordenador.
      * @param estado      Estado del ordenador.
      * @param tipo        Tipo del ordenador.
-     * @param activo      Indica si el ordenador está activo.
+     * @param borrado      Indica si el ordenador está borrado.
      * @param ram         Cantidad de memoria RAM.
      * @param procesador  Tipo de procesador.
      * @param tamDisco    Tamaño del disco.
      * @param tipoDisco   Tipo de disco.
      */
-    public Ordenador(String marca, String modelo, boolean estado, boolean activo, int ram,
+    public Ordenador(String marca, String modelo, boolean estado, boolean borrado, int ram,
             String procesador, int tamDisco, int tipoDisco) {
-        super(marca, modelo, estado, 1, activo);
-        id_Ordenador = ultimoId() + 1;
+        super(marca, modelo, estado, 1, borrado);
+        id_Ordenador = ultimoIdOrdenadores() + 1;
         setForeingKey(id_Ordenador);
         this.ram = ram;
         this.procesador = procesador;
@@ -130,8 +130,8 @@ public class Ordenador extends Dispositivo {
      */
     @Override
     public String toString() {
-        return super.toString() + "ram=" + ram + ", procesador=" + procesador + ", tamDisco=" + tamDisco
-                + ", tipoDisco=" + tipoDisco + "]";
+        return super.toString() + "ram: " + ram + " , procesador: " + procesador + " , tamDisco: " + tamDisco
+                + " , tipoDisco: " + tipoDisco + " ]";
     }
 
     /**
@@ -144,7 +144,7 @@ public class Ordenador extends Dispositivo {
         super.save();
         try {
             RandomAccessFile raf = new RandomAccessFile("Ordenadores.dat", "rw");
-            if (this.id_Ordenador > ultimoId()) {
+            if (this.id_Ordenador > ultimoIdOrdenadores()) {
                 raf.seek(raf.length());
             } else {
                 raf.seek((id_Ordenador - 1) * tamRegistro);
@@ -165,29 +165,28 @@ public class Ordenador extends Dispositivo {
      * Carga la información del ordenador desde un archivo.
      * 
      * @param idBuscado ID del ordenador a buscar.
-     * @return 0 si se carga correctamente, 1 si no se encuentra, 2 si no está activo.
+     * @return 0 si se carga correctamente, 1 si no se encuentra, 2 si no está borrado.
      */
     @Override
     public int load() {
-        int idBuscado =this.id_Ordenador;
+        int idBuscado = this.id_Ordenador;
         super.load();
-        int idAnterior = ultimoId();
+        int idAnterior = ultimoIdOrdenadores();
         if (idBuscado > idAnterior) {
             return 1;
         } else {
-            idBuscado = idBuscado - 1;
             int resultado = -1;
             try {
                 RandomAccessFile raf = new RandomAccessFile("Ordenadores.dat", "r");
                 raf.seek(idBuscado * tamRegistro);
-                if (raf.readInt() == idBuscado) {
+                if (raf.readInt() == idBuscado + 1) {
                     setRam(raf.readInt());
                     long inicio = raf.getFilePointer();
                     setProcesador(raf.readUTF());
                     raf.seek(inicio + tamCampo);
                     setTamDisco(raf.readInt());
                     setTipoDisco(raf.readInt());
-                    if (getActivo() == false) {
+                    if (getBorrado() == false) {
                         resultado = 2;
                     } else {
                         resultado = 0;
@@ -195,6 +194,7 @@ public class Ordenador extends Dispositivo {
                 }
                 raf.close();
             } catch (Exception e) {
+                e.printStackTrace();
                 System.err.println("Error al abrir el archivo 3");
             }
             return resultado;
@@ -227,11 +227,11 @@ public class Ordenador extends Dispositivo {
      * 
      * @return Último ID registrado.
      */
-    @Override
-    public int ultimoId() {
+    
+    public int ultimoIdOrdenadores() {
         int resultado = 0;
         try {
-            RandomAccessFile raf = new RandomAccessFile("Ordenadores.dat", "r");
+            RandomAccessFile raf = new RandomAccessFile("Ordenadores.dat", "rw");
             long tam = raf.length();
             if (tam > 0) {
                 raf.seek(tam - tamRegistro);
