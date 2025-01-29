@@ -18,11 +18,11 @@ public class Dispositivo {
     /**
      * Constructor que inicializa un dispositivo con los valores proporcionados.
      * 
-     * @param marca      La marca del dispositivo.
-     * @param modelo     El modelo del dispositivo.
-     * @param estado     El estado del dispositivo.
-     * @param tipo       El tipo de dispositivo.
-     * @param activo     Indica si el dispositivo está activo.
+     * @param marca  La marca del dispositivo.
+     * @param modelo El modelo del dispositivo.
+     * @param estado El estado del dispositivo.
+     * @param tipo   El tipo de dispositivo.
+     * @param activo Indica si el dispositivo está activo.
      *
      */
     public Dispositivo(String marca, String modelo, boolean estado, int tipo, boolean activo) {
@@ -176,12 +176,12 @@ public class Dispositivo {
                 raf.seek((id - 1) * tamRegistro);
             }
             raf.writeInt(id);
+            raf.writeInt(tipo);
+            raf.writeInt(foreingKey);
             limpiarCampo(raf, marca);
             limpiarCampo(raf, modelo);
             raf.writeBoolean(estado);
-            raf.writeInt(tipo);
             raf.writeBoolean(activo);
-            raf.writeInt(foreingKey);
             raf.close();
             return 0;
         } catch (Exception e) {
@@ -193,9 +193,11 @@ public class Dispositivo {
      * Carga la información de un dispositivo desde un archivo.
      * 
      * @param idBuscado El ID del dispositivo a buscar.
-     * @return 0 si se carga correctamente, 1 si el ID no existe, 2 si el dispositivo no está activo.
+     * @return 0 si se carga correctamente, 1 si el ID no existe, 2 si el
+     *         dispositivo no está activo.
      */
-    public int load(int idBuscado) {
+    public int load() {
+        int idBuscado = this.id;
         int idAnterior = ultimoId();
         if (idBuscado > idAnterior) {
             return 1;
@@ -206,7 +208,8 @@ public class Dispositivo {
                 RandomAccessFile raf = new RandomAccessFile("dispositivos.dat", "r");
                 raf.seek(prueba * tamRegistro);
                 if (raf.readInt() == idBuscado) {
-                    System.out.println("Encontrado el id");
+                    setTipo(raf.readInt());
+                    setForeingKey(raf.readInt());
                     long inicio = raf.getFilePointer();
                     setMarca(raf.readUTF());
                     raf.seek(inicio + tamCampo);
@@ -214,9 +217,7 @@ public class Dispositivo {
                     setModelo(raf.readUTF());
                     raf.seek(inicio + tamCampo);
                     setEstado(raf.readBoolean());
-                    setTipo(raf.readInt());
                     setActivo(raf.readBoolean());
-                    setForeingKey(raf.readInt());
                     if (activo == false) {
                         resultado = 2;
                     } else {
@@ -225,6 +226,7 @@ public class Dispositivo {
                 }
                 raf.close();
             } catch (Exception e) {
+                e.printStackTrace();
                 System.err.println("Error al abrir el archivo 3");
             }
             return resultado;
@@ -234,24 +236,27 @@ public class Dispositivo {
     /**
      * Marca el dispositivo como inactivo y guarda los cambios en el archivo.
      */
-        public void delete() {
-            setActivo(false);
-            save();
-        }
+    public void delete() {
+        setActivo(false);
+        save();
+    }
 
     /**
-     * Cambia el estado del dispositivo Alternando el mismo y guarda los cambios en el archivo.
+     * Cambia el estado del dispositivo Alternando el mismo y guarda los cambios en
+     * el archivo.
      */
     public void cambiarEstado() {
         if (estado == true) {
             setEstado(false);
         } else {
             setEstado(true);
-        }   
+        }
         save();
     }
+
     /**
-     * Limpia un campo en el archivo, rellenando con ceros hasta alcanzar el tamaño del campo.
+     * Limpia un campo en el archivo, rellenando con ceros hasta alcanzar el tamaño
+     * del campo.
      * 
      * @param raf   El archivo de acceso aleatorio.
      * @param Campo El valor del campo a limpiar.

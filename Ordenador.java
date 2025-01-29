@@ -168,7 +168,9 @@ public class Ordenador extends Dispositivo {
      * @return 0 si se carga correctamente, 1 si no se encuentra, 2 si no está activo.
      */
     @Override
-    public int load(int idBuscado) {
+    public int load() {
+        int idBuscado =this.id_Ordenador;
+        super.load();
         int idAnterior = ultimoId();
         if (idBuscado > idAnterior) {
             return 1;
@@ -179,18 +181,8 @@ public class Ordenador extends Dispositivo {
                 RandomAccessFile raf = new RandomAccessFile("Ordenadores.dat", "r");
                 raf.seek(idBuscado * tamRegistro);
                 if (raf.readInt() == idBuscado) {
-                    System.out.println("Encontrado el id");
-                    long inicio = raf.getFilePointer();
-                    setMarca(raf.readUTF());
-                    raf.seek(inicio + tamCampo);
-                    inicio = raf.getFilePointer();
-                    setModelo(raf.readUTF());
-                    raf.seek(inicio + tamCampo);
-                    setEstado(raf.readBoolean());
-                    setTipo(raf.readInt());
-                    setActivo(raf.readBoolean());
                     setRam(raf.readInt());
-                    inicio = raf.getFilePointer();
+                    long inicio = raf.getFilePointer();
                     setProcesador(raf.readUTF());
                     raf.seek(inicio + tamCampo);
                     setTamDisco(raf.readInt());

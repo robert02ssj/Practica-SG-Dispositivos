@@ -13,15 +13,15 @@ public class Impresora extends Dispositivo {
     /**
      * Constructor de la clase Impresora.
      * 
-     * @param marca        Marca de la impresora.
-     * @param modelo       Modelo de la impresora.
-     * @param estado       Estado de la impresora.
-     * @param tipo         Tipo de dispositivo.
-     * @param activo       Indica si el dispositivo está activo.
-     * @param foreingKey   Clave foránea.
+     * @param marca         Marca de la impresora.
+     * @param modelo        Modelo de la impresora.
+     * @param estado        Estado de la impresora.
+     * @param tipo          Tipo de dispositivo.
+     * @param activo        Indica si el dispositivo está activo.
+     * @param foreingKey    Clave foránea.
      * @param tipoImpresora Tipo de impresora.
-     * @param color        Indica si la impresora es a color.
-     * @param scanner      Indica si la impresora tiene escáner.
+     * @param color         Indica si la impresora es a color.
+     * @param scanner       Indica si la impresora tiene escáner.
      */
     public Impresora(String marca, String modelo, boolean estado, boolean activo,
             int tipoImpresora, boolean color, boolean scanner) {
@@ -135,6 +135,43 @@ public class Impresora extends Dispositivo {
             return 1;
         }
     }
+
+    /**
+     * Carga la información de una impresora desde un archivo.
+     * 
+     * @param id Identificador de la impresora.
+     * @return 0 si se carga correctamente, 1 si ocurre un error.
+     */
+    @Override
+    public int load() {
+        int idBuscado = this.id_Impresora;
+        int idAnterior = ultimoId();
+        if (idBuscado > idAnterior) {
+            return 1;
+        } else {
+            idBuscado = idBuscado - 1;
+            int resultado = -1;
+            try {
+                RandomAccessFile raf = new RandomAccessFile("Impresoras.dat", "r");
+                raf.seek(idBuscado * tamRegistro);
+                if (raf.readInt() == idBuscado) {
+                    setTipoImpresora(raf.readInt());
+                    setColor(raf.readBoolean());
+                    setScanner(raf.readBoolean());
+                    if (getActivo() == false) {
+                        resultado = 2;
+                    } else {
+                        resultado = 0;
+                    }
+                }
+                raf.close();
+            } catch (Exception e) {
+                resultado = 1;
+            }
+            return resultado;
+        }
+    }
+
     /**
      * Obtiene el último identificador utilizado.
      * 

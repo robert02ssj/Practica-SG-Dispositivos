@@ -1,4 +1,3 @@
-import java.io.FileNotFoundException;
 import java.io.RandomAccessFile;
 import java.util.ArrayList;
 
@@ -48,27 +47,14 @@ public class Main {
             RandomAccessFile raf = new RandomAccessFile("dispositivos.dat", "rw");
             while (raf.getFilePointer() < raf.length()) {
                 int id = raf.readInt();
-                long inicio = raf.getFilePointer();
-                String marca = raf.readUTF();
-                raf.seek(inicio + 50);
-                inicio = raf.getFilePointer();
-                String modelo = raf.readUTF();
-                raf.seek(inicio + 50);
-                boolean estado = raf.readBoolean();
-                boolean activo = raf.readBoolean();
                 int tipo = raf.readInt();
+                int foreingKey = raf.readInt();
                 switch (tipo) {
                     case 1:
                         try {
                             RandomAccessFile raf2 = new RandomAccessFile("Ordenadores.dat", "rw");
-                            int ram = raf.readInt();
-                            inicio = raf.getFilePointer();
-                            String procesador = raf.readUTF();
-                            raf.seek(inicio + 50);
-                            int tamDisco = raf.readInt();
-                            int tipoDisco = raf.readInt();
-                            Ordenador ordenador = new Ordenador(marca, modelo, estado, activo, ram, procesador,
-                                    tamDisco, tipoDisco);
+                            Ordenador ordenador = new Ordenador(foreingKey);
+                            ordenador.load();
                             ListaDispositivos.add(ordenador);
                             raf2.close();
                         } catch (Exception e) {
@@ -78,12 +64,8 @@ public class Main {
                     case 2:
                         try {
                             RandomAccessFile raf3 = new RandomAccessFile("Impresoras.dat", "rw");
-                            int tipoImpresora = raf.readInt();
-                            boolean color = raf.readBoolean();
-                            boolean scanner = raf.readBoolean();
-                            Impresora impresora = new Impresora(marca, modelo, estado, activo, tipoImpresora,
-                                    color,
-                                    scanner);
+                            Impresora impresora = new Impresora(foreingKey);
+                            impresora.load();
                             ListaDispositivos.add(impresora);
                             raf3.close();
                         } catch (Exception e) {
@@ -92,12 +74,13 @@ public class Main {
 
                         break;
                     default:
-                        Dispositivo dispositivo = new Dispositivo(marca, modelo, estado, tipo, activo);
+                        Dispositivo dispositivo = new Dispositivo(id);
+                        dispositivo.load();
                         ListaDispositivos.add(dispositivo);
                         break;
 
                 }
-                
+
             }
             raf.close();
         } catch (Exception e) {
