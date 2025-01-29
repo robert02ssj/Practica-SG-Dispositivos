@@ -238,7 +238,7 @@ public class Dispositivo {
      * Marca el dispositivo como inborrado y guarda los cambios en el archivo.
      */
     public void delete() {
-        setBorrado(false);
+        setBorrado(true);
         save();
     }
 
