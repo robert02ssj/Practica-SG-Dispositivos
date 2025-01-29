@@ -8,9 +8,8 @@ public class Main {
     private static boolean Fallo = false;
 
     public static void main(String[] args) {
-        //cargardatos();
+        cargardatos();
         do {
-            Borrarpantalla();
             menuPrincipal();
             SelectorOpcion();
             switch (opcion) {
@@ -19,6 +18,7 @@ public class Main {
                     break;
                 case 2:
                     mostrarDispositivos();
+                    menuPrincipal();
                     break;
                 case 3:
                     buscarDispositivo();
@@ -42,51 +42,69 @@ public class Main {
      * Este metodo se encarga de cargar los datos de los dispositivos
      * 
      */
-    // public static void cargardatos(){
-        //EN PROCESO DE DESARROLLO
-    //     try {
-    //         RandomAccessFile raf = new RandomAccessFile("dispositivos.dat", "rw");
-    //         while (raf.getFilePointer() < raf.length()) {
-    //             int id = raf.readInt();
-    //             String marca = raf.readUTF();
-    //             String modelo = raf.readUTF();
-    //             boolean estado = raf.readBoolean();
-    //             int tipo = raf.readInt();
-    //             boolean activo = raf.readBoolean();
-    //             switch (tipo) {
-    //                 case 1:
-    //                     int ram = raf.readInt();
-    //                     String procesador = raf.readUTF();
-    //                     int tamDisco = raf.readInt();
-    //                     int tipoDisco = raf.readInt();
-    //                     Ordenador ordenador = new Ordenador(marca, modelo, estado, activo, ram, procesador,
-    //                             tamDisco, tipoDisco);
-    //                     ordenador.setForeingKey(id);
-    //                     ListaDispositivos.add(ordenador);
-    //                     break;
-    //                 case 2:
-    //                     int tipoImpresora = raf.readInt();
-    //                     boolean color = raf.readBoolean();
-    //                     boolean scanner = raf.readBoolean();
-    //                     Impresora impresora = new Impresora(marca, modelo, estado, activo, tipoImpresora,
-    //                             color,
-    //                             scanner);
-    //                     impresora.setForeingKey(id);
-    //                     ListaDispositivos.add(impresora);
-    //                     break;
-    //                 default:
-    //                     Dispositivo dispositivo = new Dispositivo(marca, modelo, estado, tipo, activo);
-    //                     dispositivo.setForeingKey(id);
-    //                     ListaDispositivos.add(dispositivo);
-    //                     break;
-    //             }
-    //         }
+    public static void cargardatos() {
+        // EN PROCESO DE DESARROLLO
+        try {
+            RandomAccessFile raf = new RandomAccessFile("dispositivos.dat", "rw");
+            while (raf.getFilePointer() < raf.length()) {
+                int id = raf.readInt();
+                long inicio = raf.getFilePointer();
+                String marca = raf.readUTF();
+                raf.seek(inicio + 50);
+                inicio = raf.getFilePointer();
+                String modelo = raf.readUTF();
+                raf.seek(inicio + 50);
+                boolean estado = raf.readBoolean();
+                boolean activo = raf.readBoolean();
+                int tipo = raf.readInt();
+                switch (tipo) {
+                    case 1:
+                        try {
+                            RandomAccessFile raf2 = new RandomAccessFile("Ordenadores.dat", "rw");
+                            int ram = raf.readInt();
+                            inicio = raf.getFilePointer();
+                            String procesador = raf.readUTF();
+                            raf.seek(inicio + 50);
+                            int tamDisco = raf.readInt();
+                            int tipoDisco = raf.readInt();
+                            Ordenador ordenador = new Ordenador(marca, modelo, estado, activo, ram, procesador,
+                                    tamDisco, tipoDisco);
+                            ListaDispositivos.add(ordenador);
+                            raf2.close();
+                        } catch (Exception e) {
+                            System.out.println("Error al cargar los datos de ordenador");
+                        }
+                        break;
+                    case 2:
+                        try {
+                            RandomAccessFile raf3 = new RandomAccessFile("Impresoras.dat", "rw");
+                            int tipoImpresora = raf.readInt();
+                            boolean color = raf.readBoolean();
+                            boolean scanner = raf.readBoolean();
+                            Impresora impresora = new Impresora(marca, modelo, estado, activo, tipoImpresora,
+                                    color,
+                                    scanner);
+                            ListaDispositivos.add(impresora);
+                            raf3.close();
+                        } catch (Exception e) {
+                            System.out.println("Error al cargar los datos de impresora");
+                        }
 
-    //     } catch (FileNotFoundException e) {
-    //         System.out.println("Error al abrir el archivo");
-    //     }
-        
-    // }
+                        break;
+                    default:
+                        Dispositivo dispositivo = new Dispositivo(marca, modelo, estado, tipo, activo);
+                        ListaDispositivos.add(dispositivo);
+                        break;
+
+                }
+                
+            }
+            raf.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Error al cargar los datos Dispositivo");
+        }
+    }
 
     public static void menuPrincipal() {
         System.out.print("""
@@ -115,9 +133,9 @@ public class Main {
         System.out.println("Introduce el modelo del dispositivo");
         String modelo = System.console().readLine();
         System.out.println("Introduce el estado del dispositivo");
-        boolean estado = Boolean.parseBoolean(System.console().readLine());
+        boolean estado = true;
         System.out.println("Introduce si el dispositivo está activo");
-        boolean activo = Boolean.parseBoolean(System.console().readLine());
+        boolean activo = true;
         System.out.println("Introduce el tipo del dispositivo");
         int tipo = Integer.parseInt(System.console().readLine());
         switch (tipo) {
@@ -142,7 +160,7 @@ public class Main {
                 boolean color = Boolean.parseBoolean(System.console().readLine());
                 System.out.println("Introduce si la impresora tiene escáner");
                 boolean scanner = Boolean.parseBoolean(System.console().readLine());
-                Impresora impresora = new Impresora(marca, modelo, estado, activo,tipoImpresora,
+                Impresora impresora = new Impresora(marca, modelo, estado, activo, tipoImpresora,
                         color,
                         scanner);
                 System.out.println(impresora.save());
@@ -154,7 +172,7 @@ public class Main {
                 System.out.println(dispositivo.save());
                 break;
         }
-        menuPrincipal();
+        MenuPrincipal();
     }
 
     /**
@@ -165,7 +183,7 @@ public class Main {
         for (int i = 0; i < ListaDispositivos.size(); i++) {
             System.out.println(ListaDispositivos.get(i).toString());
         }
-        menuPrincipal();
+        MenuPrincipal();
     }
 
     /**
@@ -176,7 +194,7 @@ public class Main {
         System.out.println("Introduce el ID del dispositivo a buscar");
         int id = Integer.parseInt(System.console().readLine());
         ListaDispositivos.get(id).toString();
-        menuPrincipal();
+        MenuPrincipal();
     }
 
     /**
@@ -187,7 +205,7 @@ public class Main {
         System.out.println("Introduce el ID del dispositivo a borrar");
         int id = Integer.parseInt(System.console().readLine());
         ListaDispositivos.get(id).delete();
-        menuPrincipal();
+        MenuPrincipal();
 
     }
 
@@ -199,8 +217,8 @@ public class Main {
     public static void cambiarEstadoDispositivo() {
         System.out.println("Introduce el ID del dispositivo a cambiar el estado");
         int id = Integer.parseInt(System.console().readLine());
-        ListaDispositivos.get(id).cambiarEstado();
-        menuPrincipal();
+        ListaDispositivos.get(id - 1).cambiarEstado();
+        MenuPrincipal();
     }
 
     /**
@@ -211,9 +229,9 @@ public class Main {
     public static void modificarDispositivo() {
         System.out.println("Introduce el ID del dispositivo a modificar");
         int id = Integer.parseInt(System.console().readLine());
-        ListaDispositivos.get(id).toString();
+        ListaDispositivos.get(id - 1).toString();
         anadirDispositivo();
-        menuPrincipal();
+        MenuPrincipal();
     }
 
     /**

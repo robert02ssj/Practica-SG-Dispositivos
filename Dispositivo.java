@@ -234,10 +234,10 @@ public class Dispositivo {
     /**
      * Marca el dispositivo como inactivo y guarda los cambios en el archivo.
      */
-    public void delete() {
-        setActivo(false);
-        save();
-    }
+        public void delete() {
+            setActivo(false);
+            save();
+        }
 
     /**
      * Cambia el estado del dispositivo Alternando el mismo y guarda los cambios en el archivo.
