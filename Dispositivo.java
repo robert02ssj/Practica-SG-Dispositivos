@@ -114,6 +114,15 @@ public class Dispositivo {
     }
 
     /**
+     * Obtiene el ID del dispositivo.
+     * 
+     * @return El ID del dispositivo.
+     */
+    public int getId() {
+        return id;
+    }
+
+    /**
      * Obtiene el modelo del dispositivo.
      * 
      * @return El modelo del dispositivo.
