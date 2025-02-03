@@ -169,8 +169,10 @@ public class Ordenador extends Dispositivo {
      */
     @Override
     public int load() {
-        int idBuscado = this.id_Ordenador;
+       
         super.load();
+        id_Ordenador = super.getForeingKey();
+        int idBuscado = this.id_Ordenador;
         int idAnterior = ultimoIdOrdenadores();
         if (idBuscado > idAnterior) {
             return 1;
@@ -178,8 +180,8 @@ public class Ordenador extends Dispositivo {
             int resultado = -1;
             try {
                 RandomAccessFile raf = new RandomAccessFile("Ordenadores.dat", "r");
-                raf.seek(idBuscado * tamRegistro);
-                if (raf.readInt() == idBuscado + 1) {
+                raf.seek((idBuscado - 1) * tamRegistro);
+                if (raf.readInt() == idBuscado) {
                     setRam(raf.readInt());
                     long inicio = raf.getFilePointer();
                     setProcesador(raf.readUTF());

@@ -145,8 +145,9 @@ public class Impresora extends Dispositivo {
      */
     @Override
     public int load() {
-        int idBuscado = this.id_Impresora;
         super.load();
+        id_Impresora = super.getForeingKey();
+        int idBuscado = this.id_Impresora;
         int idAnterior = ultimoIdImpresora();
         if (idBuscado > idAnterior) {
             return 1;
@@ -154,8 +155,8 @@ public class Impresora extends Dispositivo {
             int resultado = -1;
             try {
                 RandomAccessFile raf = new RandomAccessFile("Impresoras.dat", "r");
-                raf.seek(idBuscado * tamRegistro);
-                if (raf.readInt() == idBuscado + 1) {
+                raf.seek((idBuscado - 1) * tamRegistro);
+                if (raf.readInt() == idBuscado) {
                     setTipoImpresora(raf.readInt());
                     setColor(raf.readBoolean());
                     setScanner(raf.readBoolean());

@@ -236,11 +236,7 @@ public class Main {
                 ((Impresora) ListaDispositivos.get(id - 1)).setScanner(Boolean.parseBoolean(System.console().readLine()));
                 break;
         }
-
         ListaDispositivos.get(id - 1).save();
-
-        
-
         MenuPrincipal();
     }
 
