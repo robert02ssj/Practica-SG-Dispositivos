@@ -77,6 +77,15 @@ public class Main {
                             System.out.println("Error al cargar los datos de impresora");
                         }
                         break;
+                    case 3:
+                        try {
+                            Smartphone smartphone = new Smartphone(id);
+                            smartphone.load();
+                            ListaDispositivos.add(smartphone);
+                        } catch (Exception e) {
+                            System.out.println("Error al cargar los datos de smartphone");
+                        }
+                        break;
                     default:
                         Dispositivo dispositivo = new Dispositivo(id);
                         dispositivo.load();
@@ -151,6 +160,20 @@ public class Main {
                         scanner);
                 System.out.println(impresora.save());
                 ListaDispositivos.add(impresora);
+                break;
+            case 3:
+                System.out.println("Introduce la cantidad de memoria RAM");
+                int ramSmartphone = Integer.parseInt(System.console().readLine());
+                System.out.println("Introduce el tipo de procesador");
+                String procesadorSmartphone = System.console().readLine();
+                System.out.println("Introduce el tamaño del disco");
+                int tamAlmacenamiento = Integer.parseInt(System.console().readLine());
+                System.out.println("Introduce el sistema operativo");
+                int sistemaOperativo = Integer.parseInt(System.console().readLine());
+                Smartphone smartphone = new Smartphone(marca, modelo, estado, borrado, ramSmartphone, procesadorSmartphone,
+                        tamAlmacenamiento, sistemaOperativo);
+                System.out.println(smartphone.save());
+                ListaDispositivos.add(smartphone);
                 break;
             default:
                 Dispositivo dispositivo = new Dispositivo(marca, modelo, estado, tipo, borrado);
@@ -237,6 +260,16 @@ public class Main {
                 ((Impresora) ListaDispositivos.get(id - 1)).setColor(Boolean.parseBoolean(System.console().readLine()));
                 System.out.println("Introduce si la impresora tiene escáner");
                 ((Impresora) ListaDispositivos.get(id - 1)).setScanner(Boolean.parseBoolean(System.console().readLine()));
+                break;
+            case 3:
+                System.out.println("Introduce la cantidad de memoria RAM");
+                ((Smartphone) ListaDispositivos.get(id - 1)).setRam(Integer.parseInt(System.console().readLine()));
+                System.out.println("Introduce el tipo de procesador");
+                ((Smartphone) ListaDispositivos.get(id - 1)).setProcesador(System.console().readLine());
+                System.out.println("Introduce el tamaño del disco");
+                ((Smartphone) ListaDispositivos.get(id - 1)).settamAlmacenamiento(Integer.parseInt(System.console().readLine()));
+                System.out.println("Introduce el sistema operativo");
+                ((Smartphone) ListaDispositivos.get(id - 1)).setsistemaOperativo(Integer.parseInt(System.console().readLine()));
                 break;
         }
         ListaDispositivos.get(id - 1).save();

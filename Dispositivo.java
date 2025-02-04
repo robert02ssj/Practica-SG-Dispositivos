@@ -14,15 +14,14 @@ public class Dispositivo {
     private String modelo; // 50 bytes
     private boolean estado; // 1 byte
     private boolean borrado; // 1 byte
-    
 
     /**
      * Constructor que inicializa un dispositivo con los valores proporcionados.
      * 
-     * @param marca  La marca del dispositivo.
-     * @param modelo El modelo del dispositivo.
-     * @param estado El estado del dispositivo.
-     * @param tipo   El tipo de dispositivo.
+     * @param marca   La marca del dispositivo.
+     * @param modelo  El modelo del dispositivo.
+     * @param estado  El estado del dispositivo.
+     * @param tipo    El tipo de dispositivo.
      * @param borrado Indica si el dispositivo está borrado.
      *
      */
@@ -175,12 +174,14 @@ public class Dispositivo {
             funciona = "No Funciona";
         }
         String tipodispo = "";
-        if(tipo == 1){
-            tipodispo = "Ordenador";
-        }else if(tipo == 2){
-            tipodispo = "Impresora";
-        }else if(tipo == 0){
+        if (tipo == 0) {
             tipodispo = "Dispositivo";
+        } else if (tipo == 1) {
+            tipodispo = "Ordenador";
+        } else if (tipo == 2) {
+            tipodispo = "Impresora";
+        } else if (tipo == 3) {
+            tipodispo = "Smartphone";
         }
         String eliminado = "";
         if (borrado) {
@@ -195,8 +196,9 @@ public class Dispositivo {
             claveAjena = " , Clave Ajena: " + foreingKey + " , ";
         }
 
-        return "[ID: " + id + " , Marca: " + marca + " , Modelo: " + modelo + " , Estado: " + funciona + ", Tipo: " + tipodispo
-                + ", "  + eliminado  + claveAjena;
+        return "[ID: " + id + " , Marca: " + marca + " , Modelo: " + modelo + " , Estado: " + funciona + ", Tipo: "
+                + tipodispo
+                + ", " + eliminado + claveAjena;
     }
 
     /**
