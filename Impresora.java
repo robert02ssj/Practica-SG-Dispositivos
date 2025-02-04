@@ -107,8 +107,28 @@ public class Impresora extends Dispositivo {
      */
     @Override
     public String toString() {
-        return super.toString() + " tipoImpresora: " + tipoImpresora + " , color: " + color + " , scanner: "
-                + scanner + " ]";
+        String tipoimp = "";
+        String impresion= "";
+        String escaneo = "";
+        if (tipoImpresora == 0) {
+            tipoimp = "Láser";
+        } else if (tipoImpresora == 1) {
+            tipoimp = "Inyección de tinta";
+        } else if (tipoImpresora == 2) {
+            tipoimp = "Otros";
+        }
+        if (color == true) {
+            impresion = "Si";
+        } else {
+            impresion = "No";
+        }
+        if (scanner == true) {
+            escaneo = "Si";
+        } else {
+            escaneo = "No";
+        }
+        return super.toString() + "Tipo: " + tipoimp + " , Color: " + impresion + " , Scanner Incluido: "
+                + escaneo + "]" + "\n";
     }
 
     /**

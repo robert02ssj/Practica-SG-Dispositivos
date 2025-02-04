@@ -168,8 +168,35 @@ public class Dispositivo {
     }
 
     public String toString() {
-        return "[ id: " + id + " , Marca: " + marca + " , Modelo: " + modelo + " , Estado: " + estado + ", Tipo: " + tipo
-                + ", borrado: " + borrado + " , foreingKey: " + foreingKey + " , ";
+        String funciona = "";
+        if (estado == true) {
+            funciona = "Funciona";
+        } else {
+            funciona = "No Funciona";
+        }
+        String tipodispo = "";
+        if(tipo == 1){
+            tipodispo = "Ordenador";
+        }else if(tipo == 2){
+            tipodispo = "Impresora";
+        }else if(tipo == 0){
+            tipodispo = "Dispositivo";
+        }
+        String eliminado = "";
+        if (borrado) {
+            eliminado = "Eliminado";
+        } else {
+            eliminado = "No eliminado";
+        }
+        String claveAjena = "";
+        if (foreingKey == -1) {
+            claveAjena = "]" + "\n";
+        } else {
+            claveAjena = " , Clave Ajena: " + foreingKey + " , ";
+        }
+
+        return "[ID: " + id + " , Marca: " + marca + " , Modelo: " + modelo + " , Estado: " + funciona + ", Tipo: " + tipodispo
+                + ", "  + eliminado  + claveAjena;
     }
 
     /**

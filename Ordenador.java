@@ -16,15 +16,15 @@ public class Ordenador extends Dispositivo {
     /**
      * Constructor de la clase Ordenador.
      * 
-     * @param marca       Marca del ordenador.
-     * @param modelo      Modelo del ordenador.
-     * @param estado      Estado del ordenador.
-     * @param tipo        Tipo del ordenador.
-     * @param borrado      Indica si el ordenador está borrado.
-     * @param ram         Cantidad de memoria RAM.
-     * @param procesador  Tipo de procesador.
-     * @param tamDisco    Tamaño del disco.
-     * @param tipoDisco   Tipo de disco.
+     * @param marca      Marca del ordenador.
+     * @param modelo     Modelo del ordenador.
+     * @param estado     Estado del ordenador.
+     * @param tipo       Tipo del ordenador.
+     * @param borrado    Indica si el ordenador está borrado.
+     * @param ram        Cantidad de memoria RAM.
+     * @param procesador Tipo de procesador.
+     * @param tamDisco   Tamaño del disco.
+     * @param tipoDisco  Tipo de disco.
      */
     public Ordenador(String marca, String modelo, boolean estado, boolean borrado, int ram,
             String procesador, int tamDisco, int tipoDisco) {
@@ -130,8 +130,25 @@ public class Ordenador extends Dispositivo {
      */
     @Override
     public String toString() {
-        return super.toString() + "ram: " + ram + " , procesador: " + procesador + " , tamDisco: " + tamDisco
-                + " , tipoDisco: " + tipoDisco + " ]";
+        String Almacenamiento = "";
+        String discoduro = "";
+        String tamañoDisco = "";
+        if (tipoDisco == 0) {
+            discoduro = "Mecánico";
+        } else if (tipoDisco == 1) {
+            discoduro = "SSD";
+        } else if (tipoDisco == 2) {
+            discoduro = "NVMe";
+        } else if (tipoDisco == 3) {
+            discoduro = "Otro";
+        }
+        if (tamDisco < 1024) {
+            tamañoDisco = tamDisco + " GB]" + "\n";
+        } else {
+            tamañoDisco = tamDisco / 1024 + " TB]" + "\n";
+        }
+        Almacenamiento = ", Almacenamiento: " + discoduro + " " + tamañoDisco;
+        return super.toString() + "Ram: " + ram + "GB , Procesador: " + procesador + Almacenamiento;
     }
 
     /**
@@ -165,11 +182,12 @@ public class Ordenador extends Dispositivo {
      * Carga la información del ordenador desde un archivo.
      * 
      * @param idBuscado ID del ordenador a buscar.
-     * @return 0 si se carga correctamente, 1 si no se encuentra, 2 si no está borrado.
+     * @return 0 si se carga correctamente, 1 si no se encuentra, 2 si no está
+     *         borrado.
      */
     @Override
     public int load() {
-       
+
         super.load();
         id_Ordenador = super.getForeingKey();
         int idBuscado = this.id_Ordenador;
@@ -229,7 +247,7 @@ public class Ordenador extends Dispositivo {
      * 
      * @return Último ID registrado.
      */
-    
+
     public int ultimoIdOrdenadores() {
         int resultado = 0;
         try {

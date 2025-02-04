@@ -9,10 +9,13 @@ public class Main {
     private final static int tamRegistroDisp = 114;
 
     public static void main(String[] args) {
+        Borrarpantalla();
         cargardatos();
         do {
+            Borrarpantalla();
             menuPrincipal();
             SelectorOpcion();
+            Borrarpantalla();
             switch (opcion) {
                 case 1:
                     anadirDispositivo();
@@ -116,7 +119,7 @@ public class Main {
         System.out.println("Introduce el modelo del dispositivo");
         String modelo = System.console().readLine();
         System.out.println("El estado del dispositivo ha sido establecido por defecto");
-        boolean estado = false;
+        boolean estado = true;
         System.out.println("El dispositivo ha sido establecido por defecto como activo");
         boolean borrado = false;
         System.out.println("Introduce el tipo del dispositivo");
