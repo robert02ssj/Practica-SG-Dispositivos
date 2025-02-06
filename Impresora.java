@@ -140,7 +140,7 @@ public class Impresora extends Dispositivo {
     public int save() {
         super.save();
         try {
-            RandomAccessFile raf = new RandomAccessFile("Impresoras.dat", "rw");
+            RandomAccessFile raf = new RandomAccessFile("/Practica-SG-Dispositivos/Ficheros de Datos/Impresoras.dat", "rw");
             if (this.id_Impresora > ultimoIdImpresora()) {
                 raf.seek(raf.length());
             } else {
@@ -174,7 +174,7 @@ public class Impresora extends Dispositivo {
         } else {
             int resultado = -1;
             try {
-                RandomAccessFile raf = new RandomAccessFile("Impresoras.dat", "r");
+                RandomAccessFile raf = new RandomAccessFile("/Practica-SG-Dispositivos/Ficheros de Datos/Impresoras.dat", "r");
                 raf.seek((idBuscado - 1) * tamRegistro);
                 if (raf.readInt() == idBuscado) {
                     setTipoImpresora(raf.readInt());
@@ -203,7 +203,7 @@ public class Impresora extends Dispositivo {
     public int ultimoIdImpresora() {
         int resultado = 0;
         try {
-            RandomAccessFile raf = new RandomAccessFile("Impresoras.dat", "rw");
+            RandomAccessFile raf = new RandomAccessFile("/Practica-SG-Dispositivos/Ficheros de Datos/Impresoras.dat", "rw");
             long tam = raf.length();
             if (tam > 0) {
                 raf.seek(tam - tamRegistro);

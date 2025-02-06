@@ -158,7 +158,7 @@ public class Smartphone extends Dispositivo {
     public int save() {
         super.save();
         try {
-            RandomAccessFile raf = new RandomAccessFile("Smartphonees.dat", "rw");
+            RandomAccessFile raf = new RandomAccessFile("/Practica-SG-Dispositivos/Ficheros de Datos/Smartphonees.dat", "rw");
             if (this.id_Smartphone > ultimoIdSmartphonees()) {
                 raf.seek(raf.length());
             } else {
@@ -195,7 +195,7 @@ public class Smartphone extends Dispositivo {
         } else {
             int resultado = -1;
             try {
-                RandomAccessFile raf = new RandomAccessFile("Smartphonees.dat", "r");
+                RandomAccessFile raf = new RandomAccessFile("/Practica-SG-Dispositivos/Ficheros de Datos/Smartphonees.dat", "r");
                 raf.seek((idBuscado - 1) * tamRegistro);
                 if (raf.readInt() == idBuscado) {
                     setRam(raf.readInt());
@@ -249,7 +249,7 @@ public class Smartphone extends Dispositivo {
     public int ultimoIdSmartphonees() {
         int resultado = 0;
         try {
-            RandomAccessFile raf = new RandomAccessFile("Smartphonees.dat", "rw");
+            RandomAccessFile raf = new RandomAccessFile("/Practica-SG-Dispositivos/Ficheros de Datos/Smartphonees.dat", "rw");
             long tam = raf.length();
             if (tam > 0) {
                 raf.seek(tam - tamRegistro);

@@ -52,7 +52,7 @@ public class Main {
     public static void cargardatos() {
         // EN PROCESO DE DESARROLLO
         try {
-            RandomAccessFile raf = new RandomAccessFile("dispositivos.dat", "rw");
+            RandomAccessFile raf = new RandomAccessFile("TEMA 5/Practica-SG-Dispositivos/Ficheros de Datos/Dispositivos.dat", "rw");
             while (raf.getFilePointer() < raf.length()) {
                 long inicio = raf.getFilePointer();
                 int id = raf.readInt();
