@@ -1,4 +1,4 @@
-package APP;
+package App;
 import java.io.RandomAccessFile;
 
 /**
@@ -209,7 +209,7 @@ public class Dispositivo {
      */
     public int save() {
         try {
-            RandomAccessFile raf = new RandomAccessFile("TEMA 5/Practica-SG-Dispositivos/Dispositivos.dat", "rw");
+            RandomAccessFile raf = new RandomAccessFile("Dispositivos.dat", "rw");
             if (this.id > ultimoIdDisp()) {
                 raf.seek(raf.length());
             } else {
@@ -245,7 +245,7 @@ public class Dispositivo {
             int prueba = idBuscado - 1;
             int resultado = -1;
             try {
-                RandomAccessFile raf = new RandomAccessFile("TEMA 5/Practica-SG-Dispositivos/Ficheros de Datos/Dispositivos.dat", "r");
+                RandomAccessFile raf = new RandomAccessFile("Dispositivos.dat", "r");
                 raf.seek(prueba * tamRegistro);
                 if (raf.readInt() == idBuscado) {
                     setTipo(raf.readInt());
@@ -323,7 +323,7 @@ public class Dispositivo {
     public int ultimoIdDisp() {
         int resultado = 0;
         try {
-            RandomAccessFile raf = new RandomAccessFile("TEMA 5/Practica-SG-Dispositivos/Ficheros de Datos/Dispositivos.dat", "rw");
+            RandomAccessFile raf = new RandomAccessFile("Dispositivos.dat", "rw");
             long tam = raf.length();
             if (tam > 0) {
                 raf.seek(tam - tamRegistro);

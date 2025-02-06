@@ -1,4 +1,4 @@
-package APP;
+package App;
 import java.io.RandomAccessFile;
 import java.util.ArrayList;
 
@@ -53,7 +53,7 @@ public class Main {
     public static void cargardatos() {
         // EN PROCESO DE DESARROLLO
         try {
-            RandomAccessFile raf = new RandomAccessFile("TEMA 5/Practica-SG-Dispositivos/Ficheros de Datos/Dispositivos.dat", "rw");
+            RandomAccessFile raf = new RandomAccessFile("Dispositivos.dat", "rw");
             while (raf.getFilePointer() < raf.length()) {
                 long inicio = raf.getFilePointer();
                 int id = raf.readInt();
@@ -90,7 +90,6 @@ public class Main {
                     default:
                         Dispositivo dispositivo = new Dispositivo(id);
                         dispositivo.load();
-
                         ListaDispositivos.add(dispositivo);
                         break;
                 }
