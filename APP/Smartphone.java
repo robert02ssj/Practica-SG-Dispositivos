@@ -6,6 +6,7 @@ package App;
  * Hereda de la clase Dispositivo y añade atributos específicos de un Smartphone.
  */
 public class Smartphone extends Dispositivo {
+    private final String Ruta = "../Datos/Smartphonees.dat";
     private final int tamCampo = 50;
     private final int tamRegistro = 66;
     int id_Smartphone; // 4 bytes
@@ -159,7 +160,7 @@ public class Smartphone extends Dispositivo {
     public int save() {
         super.save();
         try {
-            RandomAccessFile raf = new RandomAccessFile("Smartphonees.dat", "rw");
+            RandomAccessFile raf = new RandomAccessFile(Ruta, "rw");
             if (this.id_Smartphone > ultimoIdSmartphonees()) {
                 raf.seek(raf.length());
             } else {
@@ -196,7 +197,7 @@ public class Smartphone extends Dispositivo {
         } else {
             int resultado = -1;
             try {
-                RandomAccessFile raf = new RandomAccessFile("Smartphonees.dat", "r");
+                RandomAccessFile raf = new RandomAccessFile(Ruta, "r");
                 raf.seek((idBuscado - 1) * tamRegistro);
                 if (raf.readInt() == idBuscado) {
                     setRam(raf.readInt());
@@ -250,7 +251,7 @@ public class Smartphone extends Dispositivo {
     public int ultimoIdSmartphonees() {
         int resultado = 0;
         try {
-            RandomAccessFile raf = new RandomAccessFile("Smartphonees.dat", "rw");
+            RandomAccessFile raf = new RandomAccessFile(Ruta, "rw");
             long tam = raf.length();
             if (tam > 0) {
                 raf.seek(tam - tamRegistro);

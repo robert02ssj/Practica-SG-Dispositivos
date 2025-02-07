@@ -6,6 +6,7 @@ import java.io.RandomAccessFile;
  * Hereda de la clase Dispositivo y añade atributos específicos de un ordenador.
  */
 public class Ordenador extends Dispositivo {
+    private final String Ruta = "../Datos/Ordenadores.dat";
     private final int tamCampo = 50;
     private final int tamRegistro = 66;
     int id_Ordenador; // 4 bytes
@@ -161,7 +162,7 @@ public class Ordenador extends Dispositivo {
     public int save() {
         super.save();
         try {
-            RandomAccessFile raf = new RandomAccessFile("Ordenadores.dat", "rw");
+            RandomAccessFile raf = new RandomAccessFile(Ruta, "rw");
             if (this.id_Ordenador > ultimoIdOrdenadores()) {
                 raf.seek(raf.length());
             } else {
@@ -198,7 +199,7 @@ public class Ordenador extends Dispositivo {
         } else {
             int resultado = -1;
             try {
-                RandomAccessFile raf = new RandomAccessFile("Ordenadores.dat", "r");
+                RandomAccessFile raf = new RandomAccessFile(Ruta, "r");
                 raf.seek((idBuscado - 1) * tamRegistro);
                 if (raf.readInt() == idBuscado) {
                     setRam(raf.readInt());
@@ -252,7 +253,7 @@ public class Ordenador extends Dispositivo {
     public int ultimoIdOrdenadores() {
         int resultado = 0;
         try {
-            RandomAccessFile raf = new RandomAccessFile("Ordenadores.dat", "rw");
+            RandomAccessFile raf = new RandomAccessFile(Ruta, "rw");
             long tam = raf.length();
             if (tam > 0) {
                 raf.seek(tam - tamRegistro);

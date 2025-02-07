@@ -6,6 +6,7 @@ import java.io.RandomAccessFile;
  * manipular su información.
  */
 public class Dispositivo {
+    private final String Ruta = "../Datos/Dispositivos.dat";
     private final int tamRegistro = 114;
     private final int tamCampo = 50;
     private int id; // 4 bytes
@@ -209,7 +210,7 @@ public class Dispositivo {
      */
     public int save() {
         try {
-            RandomAccessFile raf = new RandomAccessFile("Dispositivos.dat", "rw");
+            RandomAccessFile raf = new RandomAccessFile(Ruta, "rw");
             if (this.id > ultimoIdDisp()) {
                 raf.seek(raf.length());
             } else {
@@ -245,7 +246,7 @@ public class Dispositivo {
             int prueba = idBuscado - 1;
             int resultado = -1;
             try {
-                RandomAccessFile raf = new RandomAccessFile("Dispositivos.dat", "r");
+                RandomAccessFile raf = new RandomAccessFile(Ruta, "r");
                 raf.seek(prueba * tamRegistro);
                 if (raf.readInt() == idBuscado) {
                     setTipo(raf.readInt());
@@ -323,7 +324,7 @@ public class Dispositivo {
     public int ultimoIdDisp() {
         int resultado = 0;
         try {
-            RandomAccessFile raf = new RandomAccessFile("Dispositivos.dat", "rw");
+            RandomAccessFile raf = new RandomAccessFile(Ruta, "rw");
             long tam = raf.length();
             if (tam > 0) {
                 raf.seek(tam - tamRegistro);

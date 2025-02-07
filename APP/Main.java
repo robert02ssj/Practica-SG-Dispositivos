@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 
 public class Main {
+    private static final String Ruta = "datos/Dispositivos.dat";
     private static ArrayList<Dispositivo> ListaDispositivos = new ArrayList<Dispositivo>();
     private static int opcion = 0;
     private static boolean Fallo = false;
@@ -53,7 +54,7 @@ public class Main {
     public static void cargardatos() {
         // EN PROCESO DE DESARROLLO
         try {
-            RandomAccessFile raf = new RandomAccessFile("Dispositivos.dat", "rw");
+            RandomAccessFile raf = new RandomAccessFile(Ruta, "rw");
             while (raf.getFilePointer() < raf.length()) {
                 long inicio = raf.getFilePointer();
                 int id = raf.readInt();

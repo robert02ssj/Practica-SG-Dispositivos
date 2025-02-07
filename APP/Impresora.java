@@ -5,6 +5,7 @@ import java.io.RandomAccessFile;
  * Clase que representa una impresora y extiende de la clase Dispositivo.
  */
 public class Impresora extends Dispositivo {
+    private final String Ruta = "../Datos/Impresoras.dat";
     private final int tamRegistro = 10;
     private int id_Impresora; // 4 bytes
     private int tipoImpresora; // 4 bytes
@@ -141,7 +142,7 @@ public class Impresora extends Dispositivo {
     public int save() {
         super.save();
         try {
-            RandomAccessFile raf = new RandomAccessFile("Impresoras.dat", "rw");
+            RandomAccessFile raf = new RandomAccessFile(Ruta, "rw");
             if (this.id_Impresora > ultimoIdImpresora()) {
                 raf.seek(raf.length());
             } else {
@@ -175,7 +176,7 @@ public class Impresora extends Dispositivo {
         } else {
             int resultado = -1;
             try {
-                RandomAccessFile raf = new RandomAccessFile("Impresoras.dat", "r");
+                RandomAccessFile raf = new RandomAccessFile(Ruta, "r");
                 raf.seek((idBuscado - 1) * tamRegistro);
                 if (raf.readInt() == idBuscado) {
                     setTipoImpresora(raf.readInt());
@@ -204,7 +205,7 @@ public class Impresora extends Dispositivo {
     public int ultimoIdImpresora() {
         int resultado = 0;
         try {
-            RandomAccessFile raf = new RandomAccessFile("Impresoras.dat", "rw");
+            RandomAccessFile raf = new RandomAccessFile(Ruta, "rw");
             long tam = raf.length();
             if (tam > 0) {
                 raf.seek(tam - tamRegistro);
