@@ -1,10 +1,10 @@
-package App;
+
 import java.io.RandomAccessFile;
 import java.util.ArrayList;
 
 
 public class Main {
-    private static final String Ruta = "datos/Dispositivos.dat";
+    private static final String Ruta = "../Datos/Dispositivos.dat";
     private static ArrayList<Dispositivo> ListaDispositivos = new ArrayList<Dispositivo>();
     private static int opcion = 0;
     private static boolean Fallo = false;
