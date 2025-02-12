@@ -1,4 +1,3 @@
-
 import java.io.RandomAccessFile;
 import java.util.ArrayList;
 
@@ -146,7 +145,11 @@ public class Main {
                 int tipoDisco = Integer.parseInt(System.console().readLine());
                 Ordenador ordenador = new Ordenador(marca, modelo, estado, borrado, ram, procesador,
                         tamDisco, tipoDisco);
-                System.out.println(ordenador.save());
+                if (ordenador.save() == 0) {
+                    System.out.println("Ordenador añadido correctamente.");
+                } else {
+                    System.err.println("Error al añadir el Ordenador.");
+                }
                 ListaDispositivos.add(ordenador);
                 break;
             case 2:
@@ -159,7 +162,11 @@ public class Main {
                 Impresora impresora = new Impresora(marca, modelo, estado, borrado, tipoImpresora,
                         color,
                         scanner);
-                System.out.println(impresora.save());
+                if (impresora.save() == 0) {
+                    System.out.println("Impresora añadida correctamente.");
+                } else {
+                    System.err.println("Error al añadir la Impresora.");
+                }
                 ListaDispositivos.add(impresora);
                 break;
             case 3:
@@ -173,13 +180,21 @@ public class Main {
                 int sistemaOperativo = Integer.parseInt(System.console().readLine());
                 Smartphone smartphone = new Smartphone(marca, modelo, estado, borrado, ramSmartphone, procesadorSmartphone,
                         tamAlmacenamiento, sistemaOperativo);
-                System.out.println(smartphone.save());
+                if (smartphone.save() == 0) {
+                    System.out.println("Smartphone añadido correctamente.");
+                } else {
+                    System.err.println("Error al añadir el Smartphone.");
+                }
                 ListaDispositivos.add(smartphone);
                 break;
             default:
                 Dispositivo dispositivo = new Dispositivo(marca, modelo, estado, tipo, borrado);
+                if (dispositivo.save() == 0) {
+                    System.out.println("Dispositivo añadido correctamente.");
+                } else {
+                    System.err.println("Error al añadir el Dispositivo.");
+                }
                 ListaDispositivos.add(dispositivo);
-                System.out.println(dispositivo.save());
                 break;
         }
         MenuPrincipal();
@@ -202,8 +217,14 @@ public class Main {
      */
     public static void buscarDispositivo() {
         int id = Integer.parseInt(System.console().readLine());
-        System.out.println(ListaDispositivos.get(id - 1).toString());
-
+        int result = ((Dispositivo)ListaDispositivos.get(id - 1)).load();
+        if (result == 0) {
+           System.out.println("Dispositivo encontrado: " + ((Dispositivo)ListaDispositivos.get(id - 1)).toString());
+        } else if (result == 1) {
+           System.out.println("Error: Dispositivo no encontrado.");
+        } else if (result == 2) {
+           System.out.println("Dispositivo encontrado pero esta borrado.");
+        }
         MenuPrincipal();
     }
 
@@ -214,6 +235,7 @@ public class Main {
     public static void borrarDispositivo() {
         int id = Integer.parseInt(System.console().readLine());
         ListaDispositivos.get(id - 1).delete();
+        System.out.println("Dispositivo borrado correctamente.");
         MenuPrincipal();
 
     }
@@ -226,6 +248,7 @@ public class Main {
     public static void cambiarEstadoDispositivo() {
         int id = Integer.parseInt(System.console().readLine());
         ListaDispositivos.get(id - 1).cambiarEstado();
+        System.out.println("Estado del dispositivo cambiado correctamente.");
         MenuPrincipal();
     }
 
@@ -243,7 +266,7 @@ public class Main {
         ListaDispositivos.get(id - 1).setModelo(System.console().readLine());
         System.out.println("Introduce el estado del dispositivo");
         ListaDispositivos.get(id - 1).setEstado(Boolean.parseBoolean(System.console().readLine()));
-        System.out.println("¿Esta activo el dispositivo?");
+        System.out.println("¿Esta Borrado el dispositivo?");
         ListaDispositivos.get(id - 1).setBorrado(Boolean.parseBoolean(System.console().readLine()));
         switch (ListaDispositivos.get(id - 1).getTipo()) {
             case 1:
@@ -273,7 +296,11 @@ public class Main {
                 ((Smartphone) ListaDispositivos.get(id - 1)).setsistemaOperativo(Integer.parseInt(System.console().readLine()));
                 break;
         }
-        ListaDispositivos.get(id - 1).save();
+        if (ListaDispositivos.get(id - 1).save() == 0) {
+            System.out.println("Dispositivo modificado correctamente.");
+        } else {
+            System.err.println("Error al modificar el Dispositivo.");
+        }
         MenuPrincipal();
     }
 

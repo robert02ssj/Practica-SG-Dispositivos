@@ -259,7 +259,7 @@ public class Dispositivo {
                     raf.seek(inicio + tamCampo);
                     setEstado(raf.readBoolean());
                     setBorrado(raf.readBoolean());
-                    if (borrado == false) {
+                    if (borrado == true) {
                         resultado = 2;
                     } else {
                         resultado = 0;

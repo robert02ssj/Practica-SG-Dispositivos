@@ -205,7 +205,7 @@ public class Smartphone extends Dispositivo {
                     raf.seek(inicio + tamCampo);
                     settamAlmacenamiento(raf.readInt());
                     setsistemaOperativo(raf.readInt());
-                    if (getBorrado() == false) {
+                    if (getBorrado() == true) {
                         resultado = 2;
                     } else {
                         resultado = 0;

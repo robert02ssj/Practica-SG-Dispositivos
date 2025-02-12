@@ -181,7 +181,7 @@ public class Impresora extends Dispositivo {
                     setTipoImpresora(raf.readInt());
                     setColor(raf.readBoolean());
                     setScanner(raf.readBoolean());
-                    if (getBorrado() == false) {
+                    if (getBorrado() == true) {
                         resultado = 2;
                     } else {
                         resultado = 0;
