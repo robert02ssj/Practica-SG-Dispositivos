@@ -19,10 +19,7 @@ public class PrimaryController {
 
     @FXML
     private void initialize() throws IOException {
-        
         cargardatos();
-        mostrarDispositivos();
-        System.out.println("Inicializando");
     }
 
     @FXML
