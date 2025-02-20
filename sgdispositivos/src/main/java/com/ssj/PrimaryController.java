@@ -19,7 +19,9 @@ public class PrimaryController {
 
     @FXML
     private void initialize() throws IOException {
+        ListaDispositivos.clear();
         cargardatos();
+        mostrarDispositivos();
     }
 
     @FXML
@@ -96,6 +98,7 @@ public class PrimaryController {
         }
     }
     public void mostrarDispositivos() {
+        listaDisp.setText("");
         for (int i = 0; i < ListaDispositivos.size(); i++) {
             System.out.println(ListaDispositivos.get(i).toString());
             listaDisp.setText(listaDisp.getText() + ListaDispositivos.get(i).toString() + "\n");
