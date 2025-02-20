@@ -1,55 +1,56 @@
+package com.ssj;
 
-import java.io.RandomAccessFile;
 
+    import java.io.RandomAccessFile;
 /**
- * La clase Ordenador representa un dispositivo de tipo ordenador.
- * Hereda de la clase Dispositivo y añade atributos específicos de un ordenador.
+ * La clase Smartphone representa un dispositivo de tipo Smartphone.
+ * Hereda de la clase Dispositivo y añade atributos específicos de un Smartphone.
  */
-public class Ordenador extends Dispositivo {
-    private final String Ruta = "../Datos/Ordenadores.dat";
+public class Smartphone extends Dispositivo {
+    private final String Ruta = "Smartphonees.dat";
     private final int tamCampo = 50;
     private final int tamRegistro = 66;
-    int id_Ordenador; // 4 bytes
+    int id_Smartphone; // 4 bytes
     private int ram; // 4 bytes
     private String procesador; // 50 bytes
-    private int tamDisco; // 4 bytes
-    private int tipoDisco; // 4 bytes
+    private int tamAlmacenamiento; // 4 bytes
+    private int sistemaOperativo; // 4 bytes
 
     /**
-     * Constructor de la clase Ordenador.
+     * Constructor de la clase Smartphone.
      * 
-     * @param marca      Marca del ordenador.
-     * @param modelo     Modelo del ordenador.
-     * @param estado     Estado del ordenador.
-     * @param tipo       Tipo del ordenador.
-     * @param borrado    Indica si el ordenador está borrado.
+     * @param marca      Marca del Smartphone.
+     * @param modelo     Modelo del Smartphone.
+     * @param estado     Estado del Smartphone.
+     * @param tipo       Tipo del Smartphone.
+     * @param borrado    Indica si el Smartphone está borrado.
      * @param ram        Cantidad de memoria RAM.
      * @param procesador Tipo de procesador.
-     * @param tamDisco   Tamaño del disco.
-     * @param tipoDisco  Tipo de disco.
+     * @param tamAlmacenamiento   Tamaño del disco.
+     * @param sistemaOperativo  Sistema operativo del Smartphone.
      */
-    public Ordenador(String marca, String modelo, boolean estado, boolean borrado, int ram,
-            String procesador, int tamDisco, int tipoDisco) {
-        super(marca, modelo, estado, 1, borrado);
-        id_Ordenador = ultimoIdOrdenadores() + 1;
-        setForeingKey(id_Ordenador);
+    public Smartphone(String marca, String modelo, boolean estado, boolean borrado, int ram,
+            String procesador, int tamAlmacenamiento, int sistemaOperativo) {
+        super(marca, modelo, estado, 3, borrado);
+        id_Smartphone = ultimoIdSmartphonees() + 1;
+        setForeingKey(id_Smartphone);
         this.ram = ram;
         this.procesador = procesador;
-        this.tamDisco = tamDisco;
-        this.tipoDisco = tipoDisco;
+        this.tamAlmacenamiento = tamAlmacenamiento;
+        this.sistemaOperativo = sistemaOperativo;
     }
 
     /**
-     * Constructor de la clase Ordenador con ID.
+     * Constructor de la clase Smartphone con ID.
      * 
-     * @param id ID del ordenador.
+     * @param id ID del Smartphone.
      */
-    public Ordenador(int id) {
+    public Smartphone(int id) {
         super(id);
         this.ram = 0;
         this.procesador = "";
-        this.tamDisco = 0;
-        this.tipoDisco = 0;
+        this.tamAlmacenamiento = 0;
+        this.sistemaOperativo = 0;
     }
 
     /**
@@ -73,20 +74,20 @@ public class Ordenador extends Dispositivo {
     /**
      * Establece el tamaño del disco.
      * 
-     * @param tamDisco Tamaño del disco.
+     * @param tamAlmacenamiento Tamaño del disco.
      */
-    public void setTamDisco(int tamDisco) {
-        this.tamDisco = tamDisco;
+    public void settamAlmacenamiento(int tamAlmacenamiento) {
+        this.tamAlmacenamiento = tamAlmacenamiento;
 
     }
 
     /**
      * Establece el tipo de disco.
      * 
-     * @param tipoDisco Tipo de disco.
+     * @param sistemaOperativo Tipo de disco.
      */
-    public void setTipoDisco(int tipoDisco) {
-        this.tipoDisco = tipoDisco;
+    public void setsistemaOperativo(int sistemaOperativo) {
+        this.sistemaOperativo = sistemaOperativo;
     }
 
     /**
@@ -112,8 +113,8 @@ public class Ordenador extends Dispositivo {
      * 
      * @return Tamaño del disco.
      */
-    public int getTamDisco() {
-        return tamDisco;
+    public int gettamAlmacenamiento() {
+        return tamAlmacenamiento;
     }
 
     /**
@@ -121,40 +122,38 @@ public class Ordenador extends Dispositivo {
      * 
      * @return Tipo de disco.
      */
-    public int getTipoDisco() {
-        return tipoDisco;
+    public int getsistemaOperativo() {
+        return sistemaOperativo;
     }
 
     /**
-     * Devuelve una representación en cadena del objeto Ordenador.
+     * Devuelve una representación en cadena del objeto Smartphone.
      * 
-     * @return Cadena con la información del ordenador.
+     * @return Cadena con la información del Smartphone.
      */
     @Override
     public String toString() {
         String Almacenamiento = "";
-        String discoduro = "";
+        String so = "";
         String tamañoDisco = "";
-        if (tipoDisco == 0) {
-            discoduro = "Mecánico";
-        } else if (tipoDisco == 1) {
-            discoduro = "SSD";
-        } else if (tipoDisco == 2) {
-            discoduro = "NVMe";
-        } else if (tipoDisco == 3) {
-            discoduro = "Otro";
+        if (sistemaOperativo == 0) {
+            so = "Android";
+        } else if (sistemaOperativo == 1) {
+            so = "IOS";
+        } else if (sistemaOperativo == 2) {
+            so = "Otro";
         }
-        if (tamDisco < 1024) {
-            tamañoDisco = tamDisco + " GB]" + "\n";
+        if (tamAlmacenamiento < 1024) {
+            tamañoDisco = tamAlmacenamiento + " GB]" + "\n";
         } else {
-            tamañoDisco = tamDisco / 1024 + " TB]" + "\n";
+            tamañoDisco = tamAlmacenamiento / 1024 + " TB]" + "\n";
         }
-        Almacenamiento = ", Almacenamiento: " + discoduro + " " + tamañoDisco;
-        return super.toString() + "Ram: " + ram + "GB , Procesador: " + procesador + Almacenamiento;
+        Almacenamiento = ", Almacenamiento: " + tamañoDisco;
+        return super.toString() + "Sistema Operativo: " + so + " Ram: " + ram + " GB , Procesador: " + procesador + Almacenamiento;
     }
 
     /**
-     * Guarda la información del ordenador en un archivo.
+     * Guarda la información del Smartphone en un archivo.
      * 
      * @return 0 si se guarda correctamente, 1 en caso de error.
      */
@@ -163,16 +162,16 @@ public class Ordenador extends Dispositivo {
         super.save();
         try {
             RandomAccessFile raf = new RandomAccessFile(Ruta, "rw");
-            if (this.id_Ordenador > ultimoIdOrdenadores()) {
+            if (this.id_Smartphone > ultimoIdSmartphonees()) {
                 raf.seek(raf.length());
             } else {
-                raf.seek((id_Ordenador - 1) * tamRegistro);
+                raf.seek((id_Smartphone - 1) * tamRegistro);
             }
-            raf.writeInt(id_Ordenador);
+            raf.writeInt(id_Smartphone);
             raf.writeInt(ram);
             limpiarCampo(raf, procesador);
-            raf.writeInt(tamDisco);
-            raf.writeInt(tipoDisco);
+            raf.writeInt(tamAlmacenamiento);
+            raf.writeInt(sistemaOperativo);
             raf.close();
             return 0;
         } catch (Exception e) {
@@ -181,9 +180,9 @@ public class Ordenador extends Dispositivo {
     }
 
     /**
-     * Carga la información del ordenador desde un archivo.
+     * Carga la información del Smartphone desde un archivo.
      * 
-     * @param idBuscado ID del ordenador a buscar.
+     * @param idBuscado ID del Smartphone a buscar.
      * @return 0 si se carga correctamente, 1 si no se encuentra, 2 si no está
      *         borrado.
      */
@@ -191,9 +190,9 @@ public class Ordenador extends Dispositivo {
     public int load() {
 
         super.load();
-        id_Ordenador = super.getForeingKey();
-        int idBuscado = this.id_Ordenador;
-        int idAnterior = ultimoIdOrdenadores();
+        id_Smartphone = super.getForeingKey();
+        int idBuscado = this.id_Smartphone;
+        int idAnterior = ultimoIdSmartphonees();
         if (idBuscado > idAnterior) {
             return 1;
         } else {
@@ -206,8 +205,8 @@ public class Ordenador extends Dispositivo {
                     long inicio = raf.getFilePointer();
                     setProcesador(raf.readUTF());
                     raf.seek(inicio + tamCampo);
-                    setTamDisco(raf.readInt());
-                    setTipoDisco(raf.readInt());
+                    settamAlmacenamiento(raf.readInt());
+                    setsistemaOperativo(raf.readInt());
                     if (getBorrado() == true) {
                         resultado = 2;
                     } else {
@@ -217,7 +216,7 @@ public class Ordenador extends Dispositivo {
                 raf.close();
             } catch (Exception e) {
                 e.printStackTrace();
-                System.out.println("Error al abrir el archivo 3");
+                System.err.println("Error al abrir el archivo 3");
             }
             return resultado;
         }
@@ -250,7 +249,7 @@ public class Ordenador extends Dispositivo {
      * @return Último ID registrado.
      */
 
-    public int ultimoIdOrdenadores() {
+    public int ultimoIdSmartphonees() {
         int resultado = 0;
         try {
             RandomAccessFile raf = new RandomAccessFile(Ruta, "rw");
@@ -266,3 +265,4 @@ public class Ordenador extends Dispositivo {
         return resultado;
     }
 }
+

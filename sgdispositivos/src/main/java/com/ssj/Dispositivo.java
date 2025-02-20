@@ -1,3 +1,5 @@
+package com.ssj;
+
 
 import java.io.RandomAccessFile;
 
@@ -6,7 +8,7 @@ import java.io.RandomAccessFile;
  * manipular su información.
  */
 public class Dispositivo {
-    private final String Ruta = "../Datos/Dispositivos.dat";
+    private final String Ruta = "Dispositivos.dat";
     private final int tamRegistro = 114;
     private final int tamCampo = 50;
     private int id; // 4 bytes
