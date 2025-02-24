@@ -1,3 +1,5 @@
+package com.ssj;
+
 
 import java.io.RandomAccessFile;
 
@@ -6,7 +8,7 @@ import java.io.RandomAccessFile;
  * Hereda de la clase Dispositivo y añade atributos específicos de un ordenador.
  */
 public class Ordenador extends Dispositivo {
-    private final String Ruta = "../Datos/Ordenadores.dat";
+    private final String Ruta = "Ordenadores.dat";
     private final int tamCampo = 50;
     private final int tamRegistro = 66;
     int id_Ordenador; // 4 bytes
@@ -208,7 +210,7 @@ public class Ordenador extends Dispositivo {
                     raf.seek(inicio + tamCampo);
                     setTamDisco(raf.readInt());
                     setTipoDisco(raf.readInt());
-                    if (getBorrado() == false) {
+                    if (getBorrado() == true) {
                         resultado = 2;
                     } else {
                         resultado = 0;

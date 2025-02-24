@@ -1,10 +1,12 @@
+package com.ssj;
+
 import java.io.RandomAccessFile;
 
 /**
  * Clase que representa una impresora y extiende de la clase Dispositivo.
  */
 public class Impresora extends Dispositivo {
-    private final String Ruta = "../Datos/Impresoras.dat";
+    private final String Ruta = "Impresoras.dat";
     private final int tamRegistro = 10;
     private int id_Impresora; // 4 bytes
     private int tipoImpresora; // 4 bytes
@@ -181,7 +183,7 @@ public class Impresora extends Dispositivo {
                     setTipoImpresora(raf.readInt());
                     setColor(raf.readBoolean());
                     setScanner(raf.readBoolean());
-                    if (getBorrado() == false) {
+                    if (getBorrado() == true) {
                         resultado = 2;
                     } else {
                         resultado = 0;

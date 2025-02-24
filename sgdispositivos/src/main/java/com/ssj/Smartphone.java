@@ -1,3 +1,5 @@
+package com.ssj;
+
 
     import java.io.RandomAccessFile;
 /**
@@ -5,7 +7,7 @@
  * Hereda de la clase Dispositivo y añade atributos específicos de un Smartphone.
  */
 public class Smartphone extends Dispositivo {
-    private final String Ruta = "../Datos/Smartphonees.dat";
+    private final String Ruta = "Smartphonees.dat";
     private final int tamCampo = 50;
     private final int tamRegistro = 66;
     int id_Smartphone; // 4 bytes
@@ -205,7 +207,7 @@ public class Smartphone extends Dispositivo {
                     raf.seek(inicio + tamCampo);
                     settamAlmacenamiento(raf.readInt());
                     setsistemaOperativo(raf.readInt());
-                    if (getBorrado() == false) {
+                    if (getBorrado() == true) {
                         resultado = 2;
                     } else {
                         resultado = 0;
