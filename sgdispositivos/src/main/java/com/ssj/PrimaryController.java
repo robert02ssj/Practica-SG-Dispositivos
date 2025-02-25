@@ -2,14 +2,12 @@ package com.ssj;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.util.ArrayList;
-
 import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
 
 public class PrimaryController {
-    boolean segunda = false;
     private static final String Ruta = "Dispositivos.dat";
     public static ArrayList<Dispositivo> ListaDispositivos = new ArrayList<Dispositivo>();
     private final static int tamRegistroDisp = 114;
@@ -49,7 +47,6 @@ public class PrimaryController {
     
     @FXML
     private void switchToSecondary() throws IOException {
-        segunda = true;
         App.setRoot("secondary");
         
     }
