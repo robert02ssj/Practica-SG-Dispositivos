@@ -1,36 +1,57 @@
 package com.ssj;
-
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.util.ArrayList;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 
 
 public class PrimaryController {
+    boolean segunda = false;
     private static final String Ruta = "Dispositivos.dat";
-    private static ArrayList<Dispositivo> ListaDispositivos = new ArrayList<Dispositivo>();
+    public static ArrayList<Dispositivo> ListaDispositivos = new ArrayList<Dispositivo>();
     private final static int tamRegistroDisp = 114;
 
     @FXML
     private TextArea listaDisp;
     
+    @FXML
+    private TextField marca;
+
+    @FXML
+    private TextField modelo;
+    
+
 
     @FXML
     private void initialize() throws IOException {
         ListaDispositivos.clear();
         cargardatos();
-        mostrarDispositivos();
+        if (listaDisp != null) {
+            mostrarDispositivos();
+        }
     }
 
     @FXML
-    private void AñadirDisp() throws IOException {
-        
+    private void AnadirDisp() throws IOException {
+        String marcaDisp = marca.getText();
+        String modeloDisp = modelo.getText();
+        if (marcaDisp.length() > 0 && modeloDisp.length() > 0) {
+            Dispositivo dispositivo = new Dispositivo(marcaDisp, modeloDisp, true, 0, false);
+            dispositivo.save();
+            ListaDispositivos.add(dispositivo);
+            listaDisp.setText(listaDisp.getText() + dispositivo.toString() + "\n");
+        }
+        App.setRoot("primary");
     }
+    
     @FXML
     private void switchToSecondary() throws IOException {
+        segunda = true;
         App.setRoot("secondary");
+        
     }
 
     @FXML
