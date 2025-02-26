@@ -8,6 +8,8 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.collections.FXCollections?>
+<?import java.lang.String?>
 
 <VBox alignment="CENTER" prefHeight="734.0" prefWidth="869.0" spacing="20.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ssj.PrimaryController">
     <children>
@@ -18,7 +20,16 @@
               <Label text="Modelo" />
             <TextField fx:id="modelo" prefHeight="26.0" prefWidth="186.0" />
             <Label text="Tipo" />
-            <ChoiceBox fx:id="tipo" prefWidth="150.0" />
+            <ChoiceBox fx:id="tipo" prefWidth="150.0">
+               <items>
+                  <FXCollections fx:factory="observableArrayList">
+                        <String fx:value="Ordenador"/>
+                        <String fx:value="Impresora"/>
+                        <String fx:value="Smartphone"/>
+                        <String fx:value="Dispositivo"/>
+                  </FXCollections>
+               </items>
+            </ChoiceBox>
             <HBox alignment="CENTER" prefHeight="58.0" prefWidth="521.0">
                <children>
                   <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">

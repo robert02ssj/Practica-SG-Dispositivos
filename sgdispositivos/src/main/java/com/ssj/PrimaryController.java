@@ -3,6 +3,7 @@ import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.util.ArrayList;
 import javafx.fxml.FXML;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
@@ -21,7 +22,8 @@ public class PrimaryController {
     @FXML
     private TextField modelo;
     
-
+    @FXML
+    private ChoiceBox tipoDisp;
 
     @FXML
     private void initialize() throws IOException {
@@ -41,6 +43,7 @@ public class PrimaryController {
             dispositivo.save();
             ListaDispositivos.add(dispositivo);
             listaDisp.setText(listaDisp.getText() + dispositivo.toString() + "\n");
+
         }
         App.setRoot("primary");
     }
