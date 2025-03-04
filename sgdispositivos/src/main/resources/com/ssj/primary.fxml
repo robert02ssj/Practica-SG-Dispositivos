@@ -4,6 +4,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
@@ -29,6 +30,17 @@
             <Button fx:id="Añadir" alignment="CENTER" onAction="#switchToSecondary" prefHeight="26.0" prefWidth="184.0" text="Añadir Dispositivo" />
             <Button fx:id="Modificar" onAction="#ModDisp" prefHeight="26.0" prefWidth="184.0" text="Modificar Dispositivo" />
             <Button fx:id="Borrar" onAction="#EliminarDisp" prefHeight="26.0" prefWidth="184.0" text="Borrar Dispositivo" />
+         </children>
+      </HBox>
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+         <children>
+            <VBox prefHeight="26.0" prefWidth="102.0" />
+            <VBox prefHeight="26.0" prefWidth="283.0" />
+            <VBox prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <TextField fx:id="idDispo" prefHeight="26.0" prefWidth="28.0" />
+               </children>
+            </VBox>
          </children>
       </HBox>
       <Button fx:id="Salir" onAction="#Salir" prefHeight="26.0" prefWidth="95.0" text="Salir" textAlignment="CENTER" />

@@ -18,15 +18,27 @@ public class PrimaryController {
     private TextArea listaDisp;
 
     @FXML
+    private TextField idDispo;
+
+    @FXML
     private TextField marca;
 
     @FXML
     private TextField modelo;
 
     @FXML
-    private ChoiceBox<String> tipoDisp;
+    private CheckBox activo;
 
-    //Ordenador
+    @FXML
+    private CheckBox eliminado;
+
+    @FXML
+    private ChoiceBox<String> tipo;
+
+    @FXML
+    private TextField idBusc;
+
+    // Ordenador
     @FXML
     private TextField procesadorpc;
 
@@ -37,9 +49,9 @@ public class PrimaryController {
     private TextField almpc;
 
     @FXML
-    private TextField tipodisco;
+    private ChoiceBox<String> tipodisco;
 
-    //Impresora
+    // Impresora
     @FXML
     private TextField tipoImpresora;
 
@@ -49,7 +61,7 @@ public class PrimaryController {
     @FXML
     private CheckBox color;
 
-    //Smartphone
+    // Smartphone
     @FXML
     private TextField procesadormovil;
 
@@ -60,9 +72,7 @@ public class PrimaryController {
     private TextField almsmr;
 
     @FXML
-    private TextField sisop;
-
-
+    private ChoiceBox<String> sisop;
 
     @FXML
     private void initialize() throws IOException {
@@ -77,16 +87,44 @@ public class PrimaryController {
     private void AnadirDisp() throws IOException {
         String marcaDisp = marca.getText();
         String modeloDisp = modelo.getText();
+        int sistop = 0;
+        int tipoDisco = 0;
 
         if (marcaDisp.length() > 0 && modeloDisp.length() > 0) {
-            String tipo = tipoDisp.getValue().toString();
-            switch (tipo) {
+            String TipoDisp = (String) tipo.getValue();
+            Boolean estadoDisp = true;
+            if (activo.isSelected()) {
+                estadoDisp = true;
+            } else {
+                estadoDisp = false;
+            }
+            Boolean borradoDisp = true;
+            if (eliminado.isSelected()) {
+                borradoDisp = true;
+            } else {
+                borradoDisp = false;
+            }
+            switch (TipoDisp) {
                 case "Ordenador":
                     String procesador = procesadorpc.getText();
                     int ram = Integer.parseInt(rampc.getText());
                     int almacenamiento = Integer.parseInt(almpc.getText());
-                    int tipoDisco = Integer.parseInt(tipodisco.getText());
-                    Ordenador ordenador = new Ordenador(marcaDisp, modeloDisp, true,false, ram, procesador, almacenamiento,tipoDisco);
+                    switch (tipodisco.getValue().toString()) {
+                        case "Mecanico":
+                            tipoDisco = 0;
+                            break;
+                        case "SSD":
+                            tipoDisco = 1;
+                            break;
+                        case "NVMe":
+                            tipoDisco = 2;
+                            break;
+                        case "Otro":
+                            tipoDisco = 3;
+                            break;
+                    }
+                    Ordenador ordenador = new Ordenador(marcaDisp, modeloDisp, estadoDisp, borradoDisp, ram, procesador,
+                            almacenamiento, tipoDisco);
                     ordenador.save();
                     ListaDispositivos.add(ordenador);
                     break;
@@ -94,7 +132,8 @@ public class PrimaryController {
                     int tipoImpr = Integer.parseInt(tipoImpresora.getText());
                     boolean escaner = scanner.isSelected();
                     boolean color = this.color.isSelected();
-                    Impresora impresora = new Impresora(marcaDisp, modeloDisp, true, false, tipoImpr, escaner, color);
+                    Impresora impresora = new Impresora(marcaDisp, modeloDisp, estadoDisp, borradoDisp, tipoImpr,
+                            escaner, color);
                     impresora.save();
                     ListaDispositivos.add(impresora);
                     break;
@@ -102,16 +141,27 @@ public class PrimaryController {
                     String procesadormv = procesadormovil.getText();
                     int ramsmartphone = Integer.parseInt(ramsm.getText());
                     int almacenamientoMovil = Integer.parseInt(almsmr.getText());
-                    int sisop = Integer.parseInt(this.sisop.getText());
-                    Smartphone smartphone = new Smartphone(marcaDisp, modeloDisp, true, false, ramsmartphone, procesadormv, almacenamientoMovil, sisop);
+                    switch (sisop.getValue().toString()) {
+                        case "Android":
+                            sistop = 0;
+                            break;
+                        case "IOS":
+                            sistop = 1;
+                            break;
+                        case "Otro":
+                            sistop = 2;
+                            break;
+                    }
+
+                    Smartphone smartphone = new Smartphone(marcaDisp, modeloDisp, estadoDisp, borradoDisp,
+                            ramsmartphone, procesadormv, almacenamientoMovil, sistop);
                     smartphone.save();
                     ListaDispositivos.add(smartphone);
                     break;
                 default:
-                    Dispositivo dispositivo = new Dispositivo(marcaDisp, modeloDisp, true, 0, false);
+                    Dispositivo dispositivo = new Dispositivo(marcaDisp, modeloDisp, estadoDisp, 0, borradoDisp);
                     dispositivo.save();
                     ListaDispositivos.add(dispositivo);
-                    listaDisp.setText(listaDisp.getText() + dispositivo.toString() + "\n");
                     break;
             }
 
@@ -125,14 +175,101 @@ public class PrimaryController {
 
     }
 
+    
+
     @FXML
     private void ModDisp() throws IOException {
-
+        App.setRoot("terciary");   
+    }
+    
+    @FXML
+    private void BuscarDisp() throws IOException {
+        int idbuscado = Integer.parseInt(idBusc.getText());
+        Dispositivo dispositivo = new Dispositivo(idbuscado);
+        dispositivo.load();
+        int tipodispo = dispositivo.getTipo();
+        switch (tipodispo) {
+            case 1:
+                Ordenador ordenador = new Ordenador(idbuscado);
+                ordenador.load();
+                marca.setText(ordenador.getMarca());
+                modelo.setText(ordenador.getModelo());
+                activo.setSelected(ordenador.getEstado());
+                eliminado.setSelected(ordenador.getBorrado());
+                tipo.setValue("Ordenador");
+                procesadorpc.setText(ordenador.getProcesador());
+                rampc.setText(String.valueOf(ordenador.getRam()));
+                almpc.setText(String.valueOf(ordenador.getTamDisco()));
+                switch (ordenador.getTipoDisco()) {
+                    case 0:
+                        tipodisco.setValue("Mecanico");
+                        break;
+                    case 1:
+                        tipodisco.setValue("SSD");
+                        break;
+                    case 2:
+                        tipodisco.setValue("NVMe");
+                        break;
+                    case 3:
+                        tipodisco.setValue("Otro");
+                        break;
+                }
+                break;
+            case 2:
+                Impresora impresora = new Impresora(idbuscado);
+                impresora.load();
+                marca.setText(impresora.getMarca());
+                modelo.setText(impresora.getModelo());
+                activo.setSelected(impresora.getEstado());
+                eliminado.setSelected(impresora.getBorrado());
+                tipo.setValue("Impresora");
+                tipoImpresora.setText(String.valueOf(impresora.getTipo()));
+                scanner.setSelected(impresora.getScanner());
+                color.setSelected(impresora.getColor());
+                break;
+            case 3:
+                Smartphone smartphone = new Smartphone(idbuscado);
+                smartphone.load();
+                marca.setText(smartphone.getMarca());
+                modelo.setText(smartphone.getModelo());
+                activo.setSelected(smartphone.getEstado());
+                eliminado.setSelected(smartphone.getBorrado());
+                tipo.setValue("Smartphone");
+                procesadormovil.setText(smartphone.getProcesador());
+                ramsm.setText(String.valueOf(smartphone.getRam()));
+                almsmr.setText(String.valueOf(smartphone.gettamAlmacenamiento()));
+                switch (smartphone.getsistemaOperativo()) {
+                    case 0:
+                        sisop.setValue("Android");
+                        break;
+                    case 1:
+                        sisop.setValue("IOS");
+                        break;
+                    case 2:
+                        sisop.setValue("Otro");
+                        break;
+                }
+                break;
+            }
     }
 
     @FXML
     private void EliminarDisp() throws IOException {
-
+        int idBorrar = Integer.parseInt(idDispo.getText());
+        Dispositivo dispositivo = new Dispositivo(idBorrar);
+        dispositivo.load();
+        Boolean estaborrado = dispositivo.getBorrado();
+        System.out.println(estaborrado);
+        if (estaborrado == false) {
+            dispositivo.delete();
+        } else if (estaborrado) {
+            dispositivo.setBorrado(false);
+            dispositivo.save();
+        }
+        listaDisp.setText("");
+        ListaDispositivos.clear();
+        cargardatos();
+        mostrarDispositivos();
     }
 
     @FXML

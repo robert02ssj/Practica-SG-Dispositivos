@@ -14,6 +14,18 @@
 
 <VBox alignment="CENTER" prefHeight="734.0" prefWidth="869.0" spacing="20.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ssj.PrimaryController">
     <children>
+      <VBox prefHeight="200.0" prefWidth="100.0">
+         <children>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Label prefHeight="18.0" prefWidth="118.0" text="Selecciona el ID" />
+                  <TextField fx:id="idBusc" prefHeight="26.0" prefWidth="40.0" />
+                  <Label prefHeight="18.0" prefWidth="32.0" />
+                    <Button fx:id="BuscarDisp" onAction="#BuscarDisp" prefHeight="26.0" prefWidth="70.0" text="Aceptar" />
+               </children>
+            </HBox>
+         </children>
+      </VBox>
       <VBox alignment="TOP_CENTER" prefHeight="616.0" prefWidth="200.0">
          <children>
             <Label prefHeight="14.0" prefWidth="49.0" text="Marca" />
@@ -128,7 +140,7 @@
             </HBox>
          </children>
       </VBox>
-        <Button fx:id="Confirm" onAction="#AnadirDisp" text="Aceptar" />
+      <Button fx:id="Confirm1" onAction="#AnadirDisp" text="Aceptar" />
     </children>
     <padding>
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />

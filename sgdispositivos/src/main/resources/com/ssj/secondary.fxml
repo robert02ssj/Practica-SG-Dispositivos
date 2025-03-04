@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.String?>
+<?import javafx.collections.FXCollections?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
@@ -8,8 +10,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.collections.FXCollections?>
-<?import java.lang.String?>
+<?import javafx.scene.text.Font?>
 
 <VBox alignment="CENTER" prefHeight="734.0" prefWidth="869.0" spacing="20.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ssj.PrimaryController">
     <children>
@@ -23,10 +24,10 @@
             <ChoiceBox fx:id="tipo" prefWidth="150.0">
                <items>
                   <FXCollections fx:factory="observableArrayList">
-                        <String fx:value="Ordenador"/>
-                        <String fx:value="Impresora"/>
-                        <String fx:value="Smartphone"/>
-                        <String fx:value="Dispositivo"/>
+                        <String fx:value="Ordenador" />
+                        <String fx:value="Impresora" />
+                        <String fx:value="Smartphone" />
+                        <String fx:value="Dispositivo" />
                   </FXCollections>
                </items>
             </ChoiceBox>
@@ -44,22 +45,44 @@
                   </VBox>
                </children>
             </HBox>
-            <HBox alignment="CENTER" prefHeight="203.0" prefWidth="521.0">
+            <HBox alignment="CENTER" prefHeight="326.0" prefWidth="830.0">
                <children>
                   <VBox alignment="TOP_CENTER" prefHeight="194.0" prefWidth="160.0">
                      <children>
-                        <Label prefHeight="18.0" prefWidth="86.0" text="Procesador" />
+                        <Label prefHeight="36.0" prefWidth="133.0" text="Ordenador" textAlignment="CENTER">
+                           <font>
+                              <Font size="25.0" />
+                           </font>
+                        </Label>
+                        <Label prefHeight="18.0" prefWidth="63.0" />
+                        <Label prefHeight="18.0" prefWidth="63.0" text="Procesador" />
                         <TextField fx:id="procesadorpc" prefHeight="26.0" prefWidth="186.0" />
                         <Label alignment="CENTER" prefHeight="18.0" prefWidth="86.0" text="Ram" />
                         <TextField fx:id="rampc" prefHeight="26.0" prefWidth="186.0" />
                         <Label alignment="CENTER" prefHeight="18.0" prefWidth="118.0" text="Almacenamiento" />
                         <TextField fx:id="almpc" prefHeight="26.0" prefWidth="186.0" />
                         <Label alignment="CENTER" prefHeight="18.0" prefWidth="118.0" text="Tipo Disco" />
-                        <TextField fx:id="tipodisco" prefHeight="26.0" prefWidth="186.0" />
+                        <ChoiceBox fx:id="tipodisco" prefWidth="150.0">
+                           <items>
+                              <FXCollections fx:factory="observableArrayList">
+                                 <String fx:value="Mecanico" />
+                                 <String fx:value="SSD" />
+                                 <String fx:value="NVME" />
+                                 <String fx:value="Otro" />
+                              </FXCollections>
+                           </items>
+                        </ChoiceBox>
                      </children>
                   </VBox>
+                  <VBox prefHeight="200.0" prefWidth="100.0" />
                   <VBox alignment="TOP_CENTER" prefHeight="194.0" prefWidth="162.0">
                      <children>
+                        <Label prefHeight="36.0" prefWidth="142.0" text="Smartphone" textAlignment="CENTER">
+                           <font>
+                              <Font size="25.0" />
+                           </font>
+                        </Label>
+                        <Label prefHeight="18.0" prefWidth="63.0" />
                         <Label prefHeight="18.0" prefWidth="80.0" text="Procesador" />
                         <TextField fx:id="procesadormovil" prefHeight="26.0" prefWidth="186.0" />
                         <Label alignment="CENTER" prefHeight="18.0" prefWidth="86.0" text="Ram" />
@@ -67,21 +90,36 @@
                         <Label alignment="CENTER" prefHeight="18.0" prefWidth="118.0" text="Almacenamiento" />
                         <TextField fx:id="almsmr" prefHeight="26.0" prefWidth="186.0" />
                         <Label alignment="CENTER" prefHeight="18.0" prefWidth="118.0" text="Sistema Operativo" />
-                        <TextField fx:id="sisop" prefHeight="26.0" prefWidth="186.0" />
+                        <ChoiceBox fx:id="sisop" prefWidth="150.0">
+                           <items>
+                              <FXCollections fx:factory="observableArrayList">
+                                 <String fx:value="Android" />
+                                 <String fx:value="IOS" />
+                                 <String fx:value="Otro" />
+                              </FXCollections>
+                           </items>
+                        </ChoiceBox>
                      </children>
                   </VBox>
+                  <VBox prefHeight="200.0" prefWidth="100.0" />
                   <VBox alignment="TOP_CENTER" prefHeight="194.0" prefWidth="155.0">
                      <children>
+                        <Label prefHeight="36.0" prefWidth="113.0" text="Impresora" textAlignment="CENTER">
+                           <font>
+                              <Font size="25.0" />
+                           </font>
+                        </Label>
+                        <Label prefHeight="18.0" prefWidth="63.0" />
                         <Label prefHeight="14.0" prefWidth="49.0" text="Tipo" />
                         <TextField fx:id="tipoImpr" prefHeight="26.0" prefWidth="186.0" />
-                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                        <HBox alignment="CENTER" prefHeight="54.0" prefWidth="155.0">
                            <children>
-                              <CheckBox fx:id="scanner" mnemonicParsing="false" text="Scanner" />
+                              <CheckBox fx:id="scanner" mnemonicParsing="false" prefHeight="18.0" prefWidth="69.0" text="Scanner" />
                            </children>
                         </HBox>
-                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                        <HBox alignment="CENTER" prefHeight="42.0" prefWidth="155.0">
                            <children>
-                              <CheckBox fx:id="color" mnemonicParsing="false" text="Color" />
+                              <CheckBox fx:id="color" mnemonicParsing="false" prefHeight="18.0" prefWidth="70.0" text="Color" />
                            </children>
                         </HBox>
                      </children>
