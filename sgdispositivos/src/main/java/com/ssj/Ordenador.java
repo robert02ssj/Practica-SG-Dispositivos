@@ -30,8 +30,7 @@ public class Ordenador extends Dispositivo {
      * @param tamDisco   Tamaño del disco.
      * @param tipoDisco  Tipo de disco.
      */
-    public Ordenador(String marca, String modelo, boolean estado, boolean borrado, int ram,
-            String procesador, int tamDisco, int tipoDisco) {
+    public Ordenador(String marca, String modelo, boolean estado, boolean borrado, int ram, String procesador, int tamDisco, int tipoDisco) {
         super(marca, modelo, estado, 1, borrado);
         id_Ordenador = ultimoIdOrdenadores() + 1;
         setForeingKey(id_Ordenador);
