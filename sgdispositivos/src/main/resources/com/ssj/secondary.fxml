@@ -14,12 +14,28 @@
 
 <VBox alignment="CENTER" prefHeight="734.0" prefWidth="869.0" spacing="20.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ssj.PrimaryController">
     <children>
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+         <children>
+            <VBox alignment="CENTER" prefHeight="56.0" prefWidth="138.0">
+               <children>
+                  <Label prefHeight="18.0" prefWidth="36.0" text="Marca" />
+                  <TextField fx:id="marca" prefHeight="26.0" prefWidth="81.0" />
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+         <children>
+            <VBox alignment="CENTER" prefHeight="43.0" prefWidth="144.0">
+               <children>
+                    <Label text="Modelo" />
+                  <TextField fx:id="modelo" prefHeight="26.0" prefWidth="138.0" />
+               </children>
+            </VBox>
+         </children>
+      </HBox>
       <VBox alignment="TOP_CENTER" prefHeight="616.0" prefWidth="200.0">
          <children>
-            <Label prefHeight="14.0" prefWidth="49.0" text="Marca" />
-            <TextField fx:id="marca" prefHeight="26.0" prefWidth="395.0" />
-              <Label text="Modelo" />
-            <TextField fx:id="modelo" prefHeight="26.0" prefWidth="186.0" />
             <Label text="Tipo" />
             <ChoiceBox fx:id="tipo" prefWidth="150.0">
                <items>
