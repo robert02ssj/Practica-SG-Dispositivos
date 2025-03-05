@@ -12,14 +12,14 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="CENTER" prefHeight="734.0" prefWidth="869.0" spacing="20.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ssj.PrimaryController">
+<VBox alignment="CENTER" prefHeight="734.0" prefWidth="869.0" spacing="20.0" style="-fx-background-color: #2b2b2b;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ssj.PrimaryController">
     <children>
       <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
          <children>
             <VBox alignment="CENTER" prefHeight="56.0" prefWidth="138.0">
                <children>
-                  <Label prefHeight="18.0" prefWidth="36.0" text="Marca" />
-                  <TextField fx:id="marca" prefHeight="26.0" prefWidth="81.0" />
+                  <Label prefHeight="18.0" prefWidth="36.0" text="Marca" textFill="white" />
+                  <TextField fx:id="marca" prefHeight="26.0" prefWidth="81.0" style="-fx-background-color: #3c3f41; -fx-text-fill: white;" />
                </children>
             </VBox>
          </children>
@@ -28,16 +28,16 @@
          <children>
             <VBox alignment="CENTER" prefHeight="43.0" prefWidth="144.0">
                <children>
-                    <Label text="Modelo" />
-                  <TextField fx:id="modelo" prefHeight="26.0" prefWidth="138.0" />
+                    <Label text="Modelo" textFill="white" />
+                  <TextField fx:id="modelo" prefHeight="26.0" prefWidth="138.0" style="-fx-background-color: #3c3f41; -fx-text-fill: white;" />
                </children>
             </VBox>
          </children>
       </HBox>
       <VBox alignment="TOP_CENTER" prefHeight="616.0" prefWidth="200.0">
          <children>
-            <Label text="Tipo" />
-            <ChoiceBox fx:id="tipo" prefWidth="150.0">
+            <Label text="Tipo" textFill="white" />
+            <ChoiceBox fx:id="tipo" prefWidth="150.0" style="-fx-background-color: #3c3f41; -fx-text-fill: white;">
                <items>
                   <FXCollections fx:factory="observableArrayList">
                         <String fx:value="Ordenador" />
@@ -51,12 +51,12 @@
                <children>
                   <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
                      <children>
-                        <CheckBox fx:id="activo" mnemonicParsing="false" text="Activo" />
+                        <CheckBox fx:id="activo" mnemonicParsing="false" text="Activo" textFill="white" />
                      </children>
                   </VBox>
                   <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
                      <children>
-                        <CheckBox fx:id="eliminado" mnemonicParsing="false" text="Eliminado" />
+                        <CheckBox fx:id="eliminado" mnemonicParsing="false" text="Eliminado" textFill="white" />
                      </children>
                   </VBox>
                </children>
@@ -65,20 +65,20 @@
                <children>
                   <VBox alignment="TOP_CENTER" prefHeight="194.0" prefWidth="160.0">
                      <children>
-                        <Label prefHeight="36.0" prefWidth="133.0" text="Ordenador" textAlignment="CENTER">
+                        <Label prefHeight="36.0" prefWidth="133.0" text="Ordenador" textAlignment="CENTER" textFill="white">
                            <font>
                               <Font size="25.0" />
                            </font>
                         </Label>
                         <Label prefHeight="18.0" prefWidth="63.0" />
-                        <Label prefHeight="18.0" prefWidth="63.0" text="Procesador" />
-                        <TextField fx:id="procesadorpc" prefHeight="26.0" prefWidth="186.0" />
-                        <Label alignment="CENTER" prefHeight="18.0" prefWidth="86.0" text="Ram" />
-                        <TextField fx:id="rampc" prefHeight="26.0" prefWidth="186.0" />
-                        <Label alignment="CENTER" prefHeight="18.0" prefWidth="118.0" text="Almacenamiento" />
-                        <TextField fx:id="almpc" prefHeight="26.0" prefWidth="186.0" />
-                        <Label alignment="CENTER" prefHeight="18.0" prefWidth="118.0" text="Tipo Disco" />
-                        <ChoiceBox fx:id="tipodisco" prefWidth="150.0">
+                        <Label prefHeight="18.0" prefWidth="63.0" text="Procesador" textFill="white" />
+                        <TextField fx:id="procesadorpc" prefHeight="26.0" prefWidth="186.0" style="-fx-background-color: #3c3f41; -fx-text-fill: white;" />
+                        <Label alignment="CENTER" prefHeight="18.0" prefWidth="86.0" text="Ram" textFill="white" />
+                        <TextField fx:id="rampc" prefHeight="26.0" prefWidth="186.0" style="-fx-background-color: #3c3f41; -fx-text-fill: white;" />
+                        <Label alignment="CENTER" prefHeight="18.0" prefWidth="118.0" text="Almacenamiento" textFill="white" />
+                        <TextField fx:id="almpc" prefHeight="26.0" prefWidth="186.0" style="-fx-background-color: #3c3f41; -fx-text-fill: white;" />
+                        <Label alignment="CENTER" prefHeight="18.0" prefWidth="118.0" text="Tipo Disco" textFill="white" />
+                        <ChoiceBox fx:id="tipodisco" prefWidth="150.0" style="-fx-background-color: #3c3f41; -fx-text-fill: white;">
                            <items>
                               <FXCollections fx:factory="observableArrayList">
                                  <String fx:value="Mecanico" />
@@ -93,20 +93,20 @@
                   <VBox prefHeight="200.0" prefWidth="100.0" />
                   <VBox alignment="TOP_CENTER" prefHeight="194.0" prefWidth="162.0">
                      <children>
-                        <Label prefHeight="36.0" prefWidth="142.0" text="Smartphone" textAlignment="CENTER">
+                        <Label prefHeight="36.0" prefWidth="142.0" text="Smartphone" textAlignment="CENTER" textFill="white">
                            <font>
                               <Font size="25.0" />
                            </font>
                         </Label>
                         <Label prefHeight="18.0" prefWidth="63.0" />
-                        <Label prefHeight="18.0" prefWidth="80.0" text="Procesador" />
-                        <TextField fx:id="procesadormovil" prefHeight="26.0" prefWidth="186.0" />
-                        <Label alignment="CENTER" prefHeight="18.0" prefWidth="86.0" text="Ram" />
-                        <TextField fx:id="ramsm" prefHeight="26.0" prefWidth="186.0" />
-                        <Label alignment="CENTER" prefHeight="18.0" prefWidth="118.0" text="Almacenamiento" />
-                        <TextField fx:id="almsmr" prefHeight="26.0" prefWidth="186.0" />
-                        <Label alignment="CENTER" prefHeight="18.0" prefWidth="118.0" text="Sistema Operativo" />
-                        <ChoiceBox fx:id="sisop" prefWidth="150.0">
+                        <Label prefHeight="18.0" prefWidth="80.0" text="Procesador" textFill="white" />
+                        <TextField fx:id="procesadormovil" prefHeight="26.0" prefWidth="186.0" style="-fx-background-color: #3c3f41; -fx-text-fill: white;" />
+                        <Label alignment="CENTER" prefHeight="18.0" prefWidth="86.0" text="Ram" textFill="white" />
+                        <TextField fx:id="ramsm" prefHeight="26.0" prefWidth="186.0" style="-fx-background-color: #3c3f41; -fx-text-fill: white;" />
+                        <Label alignment="CENTER" prefHeight="18.0" prefWidth="118.0" text="Almacenamiento" textFill="white" />
+                        <TextField fx:id="almsmr" prefHeight="26.0" prefWidth="186.0" style="-fx-background-color: #3c3f41; -fx-text-fill: white;" />
+                        <Label alignment="CENTER" prefHeight="18.0" prefWidth="118.0" text="Sistema Operativo" textFill="white" />
+                        <ChoiceBox fx:id="sisop" prefWidth="150.0" style="-fx-background-color: #3c3f41; -fx-text-fill: white;">
                            <items>
                               <FXCollections fx:factory="observableArrayList">
                                  <String fx:value="Android" />
@@ -120,14 +120,14 @@
                   <VBox prefHeight="200.0" prefWidth="100.0" />
                   <VBox alignment="TOP_CENTER" prefHeight="194.0" prefWidth="155.0">
                      <children>
-                        <Label prefHeight="36.0" prefWidth="113.0" text="Impresora" textAlignment="CENTER">
+                        <Label prefHeight="36.0" prefWidth="113.0" text="Impresora" textAlignment="CENTER" textFill="white">
                            <font>
                               <Font size="25.0" />
                            </font>
                         </Label>
                         <Label prefHeight="18.0" prefWidth="63.0" />
-                        <Label prefHeight="14.0" prefWidth="49.0" text="Tipo" />
-                        <ChoiceBox fx:id="tipoImpresora" prefWidth="150.0">
+                        <Label prefHeight="14.0" prefWidth="49.0" text="Tipo" textFill="white" />
+                        <ChoiceBox fx:id="tipoImpresora" prefWidth="150.0" style="-fx-background-color: #3c3f41; -fx-text-fill: white;">
                            <items>
                               <FXCollections fx:factory="observableArrayList">
                                  <String fx:value="Laser" />
@@ -138,12 +138,12 @@
                         </ChoiceBox>
                         <HBox alignment="CENTER" prefHeight="54.0" prefWidth="155.0">
                            <children>
-                              <CheckBox fx:id="scanner" mnemonicParsing="false" prefHeight="18.0" prefWidth="69.0" text="Scanner" />
+                              <CheckBox fx:id="scanner" mnemonicParsing="false" prefHeight="18.0" prefWidth="69.0" text="Scanner" textFill="white" />
                            </children>
                         </HBox>
                         <HBox alignment="CENTER" prefHeight="42.0" prefWidth="155.0">
                            <children>
-                              <CheckBox fx:id="color" mnemonicParsing="false" prefHeight="18.0" prefWidth="70.0" text="Color" />
+                              <CheckBox fx:id="color" mnemonicParsing="false" prefHeight="18.0" prefWidth="70.0" text="Color" textFill="white" />
                            </children>
                         </HBox>
                      </children>
@@ -152,7 +152,7 @@
             </HBox>
          </children>
       </VBox>
-        <Button fx:id="Confirm" onAction="#AnadirDisp" text="Aceptar" />
+        <Button fx:id="Confirm" onAction="#AnadirDisp" text="Aceptar" style="-fx-background-color: #555555; -fx-text-fill: white;" />
     </children>
     <padding>
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />

@@ -126,7 +126,7 @@ public class PrimaryController {
                     Ordenador ordenador = new Ordenador(marcaDisp, modeloDisp, estadoDisp, borradoDisp, ram, procesador,
                             almacenamiento, tipoDisco);
                     ordenador.save();
-                    ListaDispositivos.add(ordenador);
+                    if(borradoDisp == false ){ListaDispositivos.add(ordenador);}
                     break;
                 case "Impresora":
                     int tipoImpr = 0;
@@ -146,7 +146,7 @@ public class PrimaryController {
                     Impresora impresora = new Impresora(marcaDisp, modeloDisp, estadoDisp, borradoDisp, tipoImpr,
                             escaner, color);
                     impresora.save();
-                    ListaDispositivos.add(impresora);
+                    if(borradoDisp == false ){ListaDispositivos.add(impresora);}
                     break;
                 case "Smartphone":
                     String procesadormv = procesadormovil.getText();
@@ -167,12 +167,12 @@ public class PrimaryController {
                     Smartphone smartphone = new Smartphone(marcaDisp, modeloDisp, estadoDisp, borradoDisp,
                             ramsmartphone, procesadormv, almacenamientoMovil, sistop);
                     smartphone.save();
-                    ListaDispositivos.add(smartphone);
+                    if(borradoDisp == false ){ListaDispositivos.add(smartphone);}
                     break;
                 default:
                     Dispositivo dispositivo = new Dispositivo(marcaDisp, modeloDisp, estadoDisp, 0, borradoDisp);
                     dispositivo.save();
-                    ListaDispositivos.add(dispositivo);
+                    if(borradoDisp == false ){ListaDispositivos.add(dispositivo);}
                     break;
             }
 
@@ -373,6 +373,7 @@ public class PrimaryController {
     }
 
     public void cargardatos() {
+        boolean borrado = false;
         try {
             RandomAccessFile raf = new RandomAccessFile(Ruta, "rw");
             while (raf.getFilePointer() < raf.length()) {
@@ -385,7 +386,8 @@ public class PrimaryController {
                         try {
                             Ordenador ordenador = new Ordenador(id);
                             ordenador.load();
-                            ListaDispositivos.add(ordenador);
+                            borrado = ordenador.getBorrado();
+                            if(borrado == false ){ListaDispositivos.add(ordenador);}
                         } catch (Exception e) {
                             System.out.println("Error al cargar los datos de ordenador");
                         }
@@ -394,7 +396,8 @@ public class PrimaryController {
                         try {
                             Impresora impresora = new Impresora(id);
                             impresora.load();
-                            ListaDispositivos.add(impresora);
+                            borrado = impresora.getBorrado();
+                            if(borrado == false ){ListaDispositivos.add(impresora);}
                         } catch (Exception e) {
                             System.out.println("Error al cargar los datos de impresora");
                         }
@@ -403,7 +406,8 @@ public class PrimaryController {
                         try {
                             Smartphone smartphone = new Smartphone(id);
                             smartphone.load();
-                            ListaDispositivos.add(smartphone);
+                            borrado = smartphone.getBorrado();
+                            if(borrado == false ){ListaDispositivos.add(smartphone);}
                         } catch (Exception e) {
                             System.out.println("Error al cargar los datos de smartphone");
                         }
@@ -411,7 +415,8 @@ public class PrimaryController {
                     default:
                         Dispositivo dispositivo = new Dispositivo(id);
                         dispositivo.load();
-                        ListaDispositivos.add(dispositivo);
+                        borrado = dispositivo.getBorrado();
+                        if(borrado == false ){ListaDispositivos.add(dispositivo);}
                         break;
                 }
             }
