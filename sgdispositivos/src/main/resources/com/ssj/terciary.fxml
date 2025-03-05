@@ -123,7 +123,15 @@
                         </Label>
                         <Label prefHeight="18.0" prefWidth="63.0" />
                         <Label prefHeight="14.0" prefWidth="49.0" text="Tipo" />
-                        <TextField fx:id="tipoImpr" prefHeight="26.0" prefWidth="186.0" />
+                        <ChoiceBox fx:id="tipoImpresora" prefWidth="150.0">
+                           <items>
+                              <FXCollections fx:factory="observableArrayList">
+                                 <String fx:value="Laser" />
+                                 <String fx:value="Inyección de tinta" />
+                                 <String fx:value="Otros" />
+                              </FXCollections>
+                           </items>
+                        </ChoiceBox>
                         <HBox alignment="CENTER" prefHeight="54.0" prefWidth="155.0">
                            <children>
                               <CheckBox fx:id="scanner" mnemonicParsing="false" prefHeight="18.0" prefWidth="69.0" text="Scanner" />
@@ -140,7 +148,7 @@
             </HBox>
          </children>
       </VBox>
-      <Button fx:id="Confirm1" onAction="#AnadirDisp" text="Aceptar" />
+      <Button fx:id="AceptarMod" onAction="#AceptarMod" text="Aceptar" />
     </children>
     <padding>
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />

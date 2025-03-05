@@ -53,7 +53,7 @@ public class PrimaryController {
 
     // Impresora
     @FXML
-    private TextField tipoImpresora;
+    private ChoiceBox<String> tipoImpresora;
 
     @FXML
     private CheckBox scanner;
@@ -129,7 +129,18 @@ public class PrimaryController {
                     ListaDispositivos.add(ordenador);
                     break;
                 case "Impresora":
-                    int tipoImpr = Integer.parseInt(tipoImpresora.getText());
+                    int tipoImpr = 0;
+                    switch (tipoImpresora.getValue().toString()) {
+                        case "Láser":
+                            tipoImpr = 0;
+                            break;
+                        case "Inyección de tinta":
+                            tipoImpr = 1;
+                            break;
+                        case "Otros":
+                            tipoImpr = 2;
+                            break;
+                    }
                     boolean escaner = scanner.isSelected();
                     boolean color = this.color.isSelected();
                     Impresora impresora = new Impresora(marcaDisp, modeloDisp, estadoDisp, borradoDisp, tipoImpr,
@@ -175,32 +186,30 @@ public class PrimaryController {
 
     }
 
-    
-
     @FXML
     private void ModDisp() throws IOException {
-        App.setRoot("terciary");   
+        App.setRoot("terciary");
     }
-    
+
     @FXML
     private void BuscarDisp() throws IOException {
-        int idbuscado = Integer.parseInt(idBusc.getText());
-        Dispositivo dispositivo = new Dispositivo(idbuscado);
-        dispositivo.load();
-        int tipodispo = dispositivo.getTipo();
+        int idbuscado = Integer.parseInt(idBusc.getText()) - 1;
+        ListaDispositivos.get(idbuscado);
+        int tipodispo = ListaDispositivos.get(idbuscado).getTipo();
+        marca.setText(ListaDispositivos.get(idbuscado).getMarca());
+        modelo.setText(ListaDispositivos.get(idbuscado).getModelo());
+        activo.setSelected(ListaDispositivos.get(idbuscado).getEstado());
+        eliminado.setSelected(ListaDispositivos.get(idbuscado).getBorrado());
         switch (tipodispo) {
+            case 0:
+                tipo.setValue("Dispositivo");
+                break;
             case 1:
-                Ordenador ordenador = new Ordenador(idbuscado);
-                ordenador.load();
-                marca.setText(ordenador.getMarca());
-                modelo.setText(ordenador.getModelo());
-                activo.setSelected(ordenador.getEstado());
-                eliminado.setSelected(ordenador.getBorrado());
                 tipo.setValue("Ordenador");
-                procesadorpc.setText(ordenador.getProcesador());
-                rampc.setText(String.valueOf(ordenador.getRam()));
-                almpc.setText(String.valueOf(ordenador.getTamDisco()));
-                switch (ordenador.getTipoDisco()) {
+                procesadorpc.setText(((Ordenador) ListaDispositivos.get(idbuscado)).getProcesador());
+                rampc.setText(String.valueOf(((Ordenador) ListaDispositivos.get(idbuscado)).getRam()));
+                almpc.setText(String.valueOf(((Ordenador) ListaDispositivos.get(idbuscado)).getTamDisco()));
+                switch (((Ordenador) ListaDispositivos.get(idbuscado)).getTipoDisco()) {
                     case 0:
                         tipodisco.setValue("Mecanico");
                         break;
@@ -216,29 +225,27 @@ public class PrimaryController {
                 }
                 break;
             case 2:
-                Impresora impresora = new Impresora(idbuscado);
-                impresora.load();
-                marca.setText(impresora.getMarca());
-                modelo.setText(impresora.getModelo());
-                activo.setSelected(impresora.getEstado());
-                eliminado.setSelected(impresora.getBorrado());
                 tipo.setValue("Impresora");
-                tipoImpresora.setText(String.valueOf(impresora.getTipo()));
-                scanner.setSelected(impresora.getScanner());
-                color.setSelected(impresora.getColor());
+                switch (((Impresora) ListaDispositivos.get(idbuscado)).getTipoImpresora()) {
+                    case 0:
+                        tipoImpresora.setValue("Láser");
+                        break;
+                    case 1:
+                        tipoImpresora.setValue("Inyección de tinta");
+                        break;
+                    case 2:
+                        tipoImpresora.setValue("Otros");
+                        break;
+                }
+                scanner.setSelected(((Impresora) ListaDispositivos.get(idbuscado)).getScanner());
+                color.setSelected(((Impresora) ListaDispositivos.get(idbuscado)).getColor());
                 break;
             case 3:
-                Smartphone smartphone = new Smartphone(idbuscado);
-                smartphone.load();
-                marca.setText(smartphone.getMarca());
-                modelo.setText(smartphone.getModelo());
-                activo.setSelected(smartphone.getEstado());
-                eliminado.setSelected(smartphone.getBorrado());
                 tipo.setValue("Smartphone");
-                procesadormovil.setText(smartphone.getProcesador());
-                ramsm.setText(String.valueOf(smartphone.getRam()));
-                almsmr.setText(String.valueOf(smartphone.gettamAlmacenamiento()));
-                switch (smartphone.getsistemaOperativo()) {
+                procesadormovil.setText(((Smartphone) ListaDispositivos.get(idbuscado)).getProcesador());
+                ramsm.setText(String.valueOf(((Smartphone) ListaDispositivos.get(idbuscado)).getRam()));
+                almsmr.setText(String.valueOf(((Smartphone) ListaDispositivos.get(idbuscado)).gettamAlmacenamiento()));
+                switch (((Smartphone) ListaDispositivos.get(idbuscado)).getsistemaOperativo()) {
                     case 0:
                         sisop.setValue("Android");
                         break;
@@ -250,7 +257,95 @@ public class PrimaryController {
                         break;
                 }
                 break;
+        }
+    }
+
+    @FXML
+    private void AceptarMod() throws IOException {
+        if (idBusc.getText().length() > 0) {
+            int idbuscado = Integer.parseInt(idBusc.getText()) - 1;
+            ListaDispositivos.get(idbuscado).setMarca(marca.getText());
+            ListaDispositivos.get(idbuscado).setModelo(modelo.getText());
+            if (activo.isSelected()) {
+                ListaDispositivos.get(idbuscado).setEstado(true);
+            } else {
+                ListaDispositivos.get(idbuscado).setEstado(false);
+
             }
+            if (eliminado.isSelected()) {
+                ListaDispositivos.get(idbuscado).setBorrado(true);
+            } else {
+                ListaDispositivos.get(idbuscado).setBorrado(false);
+            }
+            switch (tipo.getValue()) {
+                case "Ordenador":
+                    ((Ordenador) ListaDispositivos.get(idbuscado)).setProcesador(procesadorpc.getText());
+                    ((Ordenador) ListaDispositivos.get(idbuscado)).setRam(Integer.parseInt(rampc.getText()));
+                    ((Ordenador) ListaDispositivos.get(idbuscado)).setTamDisco(Integer.parseInt(almpc.getText()));
+                    switch (tipodisco.getValue()) {
+                        case "Mecanico":
+                            ((Ordenador) ListaDispositivos.get(idbuscado)).setTipoDisco(0);
+                            break;
+                        case "SSD":
+                            ((Ordenador) ListaDispositivos.get(idbuscado)).setTipoDisco(1);
+                            break;
+                        case "NVMe":
+                            ((Ordenador) ListaDispositivos.get(idbuscado)).setTipoDisco(2);
+                            break;
+                        case "Otro":
+                            ((Ordenador) ListaDispositivos.get(idbuscado)).setTipoDisco(3);
+                            break;
+                    }
+                    ((Ordenador) ListaDispositivos.get(idbuscado)).save();
+                    break;
+                case "Impresora":
+                switch (tipoImpresora.getValue()) {
+                    case "Laser":
+                        ((Impresora) ListaDispositivos.get(idbuscado)).setTipoImpresora(0);
+                        break;
+                    case "Inyección de tinta":
+                        ((Impresora) ListaDispositivos.get(idbuscado)).setTipoImpresora(1);
+                        break;
+                    case "Otros":
+                        ((Impresora) ListaDispositivos.get(idbuscado)).setTipoImpresora(2);
+                        break;
+                }
+                    if (scanner.isSelected()) {
+                        ((Impresora) ListaDispositivos.get(idbuscado)).setScanner(true);
+                    } else {
+                        ((Impresora) ListaDispositivos.get(idbuscado)).setScanner(false);
+                    }
+                    if (color.isSelected()) {
+                        ((Impresora) ListaDispositivos.get(idbuscado)).setColor(true);
+                    } else {
+                        ((Impresora) ListaDispositivos.get(idbuscado)).setColor(false);
+                    }
+                    ((Impresora) ListaDispositivos.get(idbuscado)).save();
+                    break;
+                case "Smartphone":
+                    ((Smartphone) ListaDispositivos.get(idbuscado)).setProcesador(procesadormovil.getText());
+                    ((Smartphone) ListaDispositivos.get(idbuscado)).setRam(Integer.parseInt(ramsm.getText()));
+                    ((Smartphone) ListaDispositivos.get(idbuscado))
+                            .settamAlmacenamiento(Integer.parseInt(almsmr.getText()));
+                    switch (sisop.getValue()) {
+                        case "Android":
+                            ((Smartphone) ListaDispositivos.get(idbuscado)).setsistemaOperativo(0);
+                            break;
+                        case "IOS":
+                            ((Smartphone) ListaDispositivos.get(idbuscado)).setsistemaOperativo(1);
+                            break;
+                        case "Otro":
+                            ((Smartphone) ListaDispositivos.get(idbuscado)).setsistemaOperativo(2);
+                            break;
+                    }
+                    ((Smartphone) ListaDispositivos.get(idbuscado)).save();
+                    break;
+                case "Dispositivo":
+                    ListaDispositivos.get(idbuscado).save();
+                    break;
+            }
+        }
+        App.setRoot("primary");
     }
 
     @FXML
