@@ -8,7 +8,9 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-
+/**
+ * Controlador de la interfaz principal de la aplicación.
+ */
 public class PrimaryController {
     private static final String Ruta = "Dispositivos.dat";
     public static ArrayList<Dispositivo> ListaDispositivos = new ArrayList<Dispositivo>();
